@@ -58,14 +58,17 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 .tile__in{transform-style:preserve-3d;will-change:transform}
 .tile img{width:100%;aspect-ratio:var(--ar,4/5);object-fit:cover;border-radius:10px;box-shadow:0 18px 40px -22px rgba(40,25,10,.45)}
 .tile figcaption{margin-top:8px;font-size:12px;font-weight:500;letter-spacing:.02em;color:var(--ink-soft);display:flex;justify-content:space-between;gap:8px}
-.hero{position:absolute;inset:0;will-change:clip-path}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;will-change:transform}
-.hero__scrim{position:absolute;inset:0;background:linear-gradient(90deg,rgba(12,8,5,.66) 0%,rgba(12,8,5,.3) 45%,rgba(12,8,5,0) 72%),linear-gradient(0deg,rgba(12,8,5,.5),rgba(12,8,5,0) 45%)}
-.hero__copy{position:absolute;left:var(--gutter);right:var(--gutter);bottom:clamp(28px,7vh,72px);color:#fff;will-change:transform,opacity}
-.hero h1{margin:0;font:700 clamp(52px,9vw,160px)/.9 var(--sans);font-stretch:96%;letter-spacing:-.055em;max-width:10ch}
-.hero h1 em{display:block;font-size:1.04em;letter-spacing:-.02em}
-.hero__tag{position:absolute;left:50%;top:calc(50% + var(--ch,0px)/2 + 14px);transform:translateX(-50%);font-size:13px;font-weight:600;color:var(--ink);opacity:0;white-space:nowrap}
-
+.hero{position:absolute;inset:0;background:var(--canvas);overflow:hidden;will-change:opacity}
+.hero__top{position:absolute;left:var(--gutter);top:clamp(84px,11vh,110px);display:grid;gap:18px;justify-items:start;z-index:3;will-change:transform,opacity}
+.hero__lede{margin:0;font:500 clamp(22px,2vw,32px)/1.08 var(--sans);letter-spacing:-.03em}
+.hero__lede em{font-size:1.1em}
+.hero__word{position:absolute;left:50%;top:52%;translate:-50% -50%;margin:0;z-index:1;white-space:nowrap;font:800 18vw/.8 var(--title);letter-spacing:-.06em;color:var(--ink);will-change:transform,opacity;user-select:none}
+.hero__trail{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden}
+.hero__trail img{position:absolute;left:0;top:0;width:var(--s);height:auto;will-change:transform,opacity;filter:drop-shadow(0 18px 22px rgba(40,25,10,.22))}
+.hero__foot{position:absolute;left:var(--gutter);right:var(--gutter);bottom:clamp(20px,4vh,36px);display:flex;justify-content:space-between;gap:16px;font-size:13px;color:var(--ink-soft);z-index:3}
+.center{position:absolute;left:50%;top:50%;width:var(--cw2);translate:-50% -50%;margin:0;opacity:0;will-change:transform,opacity}
+.center img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:14px;box-shadow:0 30px 60px -30px rgba(40,25,10,.55)}
+.center span{display:block;margin-top:12px;text-align:center;font-size:13px;font-weight:600}
 /* ---------- 2 · the search ---------- */
 .miss{position:relative;height:320vh;background:var(--canvas)}
 .miss__pin{position:sticky;top:0;height:100vh;height:100svh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;gap:clamp(24px,5vw,80px);padding:90px var(--gutter) 40px;overflow:hidden}
@@ -170,7 +173,7 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 .em__w--a{right:2vw;bottom:2vh}
 .em__w--b{left:4vw;top:4vh}
 .em__helix{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform}
-.hcard{position:absolute;left:0;top:0;width:var(--hw);aspect-ratio:16/10;margin:calc(var(--hw) * -.3125) 0 0 calc(var(--hw) * -.5);border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 20px 40px -26px rgba(40,25,10,.55)}
+.hcard{position:absolute;left:0;top:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;width:var(--hw);aspect-ratio:16/10;margin:calc(var(--hw) * -.3125) 0 0 calc(var(--hw) * -.5);border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 20px 40px -26px rgba(40,25,10,.55)}
 .hcard img{width:100%;height:100%;object-fit:cover;object-position:top}
 .em__sub{position:absolute;left:50%;top:50%;translate:-50% -50%;margin:0;font:500 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--ink-soft);opacity:0}
 .em__collage{position:absolute;inset:0}
@@ -195,8 +198,7 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 .stop .peek img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
 .stop .peek b{display:block;padding:6px 8px;font:600 10px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;background:var(--cream)}
 .stop p .wd{display:inline-block}
-.vortex{position:absolute;left:-10%;right:-10%;top:-34vh;bottom:-26vh;pointer-events:none;perspective:900px;overflow:visible}
-.vortex img{position:absolute;left:50%;top:50%;width:170px;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:6px;box-shadow:0 16px 30px -18px rgba(40,25,10,.6);opacity:0}
+.livemask{overflow:hidden;margin-left:calc(var(--lg,0px) * -1);padding-left:var(--lg,0px);margin-right:calc(var(--rg,0px) * -1);padding-right:var(--rg,0px)}
 
 /* ---------- buttons light up when the pointer comes close ---------- */
 .pill,.chip{position:relative;overflow:hidden;isolation:isolate}
@@ -224,7 +226,8 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   .nav{grid-template-columns:1fr auto}
   .nav__links{display:none}
   .pill{height:42px;padding:0 16px;font-size:14px}
-  .hero h1{font-size:clamp(46px,13vw,80px)}
+  .hero__word{top:50%}
+  .hero__foot span:last-child{display:none}
   .miss__pin{grid-template-columns:1fr;align-content:center;gap:24px;padding-top:80px}
   .miss__copy{order:-1}
   .miss__copy h2{font-size:clamp(32px,9.5vw,50px)}
@@ -314,14 +317,19 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
     <div class="stage__pin">
       <p class="stage__line" id="stageLine">Every one of these started as a <em>link in bio.</em></p>
       <div id="tiles"></div>
+      <div class="center" id="center" aria-hidden="true"><img src="assets/cover/jacaranda.webp" alt=""><span>Jacarandá</span></div>
       <div class="hero" id="hero">
-        <img src="assets/hero.webp" alt="A low lounge facing a sunset over the sea, a suspended fireplace glowing beside patterned floor cushions." fetchpriority="high">
-        <div class="hero__scrim" aria-hidden="true"></div>
-        <div class="hero__copy" id="heroCopy">
-          <h1>Your next customer is deciding. <em>Right now.</em></h1>
+        <div class="hero__top">
+          <p class="hero__lede">Your next customer is deciding.<br><em>Right now.</em></p>
+          <a class="pill hero__cta" data-wa href="#contact">Get your site <span aria-hidden="true">→</span></a>
+        </div>
+        <h1 class="hero__word" id="heroWord" aria-label="Showcase">SHOWCASE</h1>
+        <div class="hero__trail" id="trail" aria-hidden="true"></div>
+        <div class="hero__foot">
+          <span>Websites for restaurants, cafés, salons, guesthouses &amp; boutiques</span>
+          <span>20 sites built</span>
         </div>
       </div>
-      <p class="hero__tag" id="heroTag">Kūno + Budō</p>
     </div>
   </section>
 
@@ -390,7 +398,7 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
     <div class="track" id="track">
       <div class="stop" data-act="type"><figure class="peek" aria-hidden="true"><img src="assets/shot/sirocco.webp" alt=""><b>Preview ready</b></figure><h3>A free preview in 48 hours</h3><p>Send us your Instagram. We build a live preview of your future site with your space, your offer and your mood. No payment, no commitment.</p></div>
       <div class="stop" data-act="shuffle"><h3>We refine it together</h3><p>Booking link, menu, WhatsApp, maps, two languages. Tell us what matters and we shape it until it feels like yours.</p></div>
-      <div class="stop" data-act="live"><div class="vortex" aria-hidden="true"></div><h3>You go live</h3><p>Your own domain, fast on every phone, ready to share on Google Maps and Instagram.</p></div>
+      <div class="stop" data-act="live"><h3>You go live</h3><p>Your own domain, fast on every phone, ready to share on Google Maps and Instagram.</p></div>
     </div>
     <p class="pressure">Every week without a site is a week of customers you gave away.</p>
   </section>
@@ -470,7 +478,49 @@ document.querySelectorAll('[data-wa]').forEach(a => { a.href = waHref; a.target 
 function prog(el){ const r = el.getBoundingClientRect(); const travel = r.height - VH; return travel > 0 ? clamp(-r.top / travel) : (r.top < 0 ? 1 : 0); }
 
 /* ======================= 1 · stage ======================= */
-const stage = $('#stage'), hero = $('#hero'), heroImg = hero.querySelector('img'), heroCopy = $('#heroCopy'), heroTag = $('#heroTag'), stageLine = $('#stageLine'), nav = $('#nav');
+const stage = $('#stage'), hero = $('#hero'), heroWord = $('#heroWord'), heroTop = hero.querySelector('.hero__top'), heroFoot = hero.querySelector('.hero__foot'), center = $('#center'), stageLine = $('#stageLine'), nav = $('#nav');
+
+/* ---------- hero trail: the things our clients sell follow the pointer ---------- */
+const ITEMS = ['lashes','polish','nigiri','maki','pizza','croissant','cake','cocktail','wine','tajine','coffee','curry','tea','key','pilates','stool'];
+const trail = $('#trail');
+const itemSrc = ITEMS.map(k => `assets/items/${k}.webp`);
+itemSrc.forEach(s => { const i = new Image(); i.src = s; });
+let itemIdx = 0, lastSpawn = null, lastPointerAt = 0, trailOn = true;
+function spawn(x, y, dirDeg){
+  if (!trailOn) return;
+  const el = document.createElement('img');
+  el.src = itemSrc[itemIdx++ % itemSrc.length]; el.alt = '';
+  const s = (isNarrow() ? 96 : 175) * (0.8 + Math.random() * 0.4);
+  el.style.setProperty('--s', s + 'px');
+  trail.appendChild(el);
+  const r0 = (Math.random() - .5) * 50, r1 = r0 + (Math.random() - .5) * 40;
+  const drift = 40 + Math.random() * 50;
+  const a = el.animate([
+    { transform: `translate(${x - s/2}px, ${y - s/2}px) rotate(${r0}deg) scale(.3)`, opacity: 0 },
+    { transform: `translate(${x - s/2}px, ${y - s/2}px) rotate(${r0}deg) scale(1)`, opacity: 1, offset: .14 },
+    { transform: `translate(${x - s/2}px, ${y - s/2}px) rotate(${(r0 + r1) / 2}deg) scale(1)`, opacity: 1, offset: .62 },
+    { transform: `translate(${x - s/2}px, ${y - s/2 + drift}px) rotate(${r1}deg) scale(.55)`, opacity: 0 }
+  ], { duration: 1900, easing: 'cubic-bezier(.23,1,.32,1)' });
+  a.onfinish = () => el.remove();
+}
+function trailAt(x, y){
+  const r = hero.getBoundingClientRect(); x -= r.left; y -= r.top;
+  if (y < 0 || y > r.height) { lastSpawn = null; return; }
+  if (!lastSpawn){ lastSpawn = { x, y }; spawn(x, y); return; }
+  const d = Math.hypot(x - lastSpawn.x, y - lastSpawn.y);
+  if (d > (isNarrow() ? 42 : 58)){ spawn(x, y); lastSpawn = { x, y }; }
+}
+addEventListener('pointermove', e => { lastPointerAt = performance.now(); trailAt(e.clientX, e.clientY); }, { passive: true });
+// when nobody is moving a mouse (phones, or idle), the trail draws itself along a slow loop
+let autoT = 0;
+function autoTrail(dt){
+  if (reduce || performance.now() - lastPointerAt < 2500) return;
+  const r = hero.getBoundingClientRect(); if (r.bottom < 0) return;
+  autoT += dt * 0.00055;
+  const x = r.width * (0.5 + 0.38 * Math.sin(autoT * 1.3)), y = r.height * (0.52 + 0.24 * Math.sin(autoT * 2.1 + 1));
+  trailAt(x + r.left, y + r.top);
+}
+
 const TILE_POS = [
   ['alize',   11, 40, 14, '4/3', -1], ['le41', 26, 58, 9, '4/5', 1], ['kohl', 12, 78, 11, '4/5', 1], ['nour', 29, 86, 9, '4/5', -1],
   ['sirocco', 77, 40, 14, '4/3', -1], ['zvezda', 90, 58, 9, '4/5', 1], ['huitieme', 88, 82, 10, '4/5', 1], ['nagi', 71, 84, 11, '1/1', -1]
@@ -489,18 +539,22 @@ function buildTiles(){
     return { el: f, inner: f.firstChild, dx: x - 50, dy: y - 50, d, i, ph: i * 1.7 };
   });
 }
-function cardSize(){ const cw = isNarrow() ? Math.min(VW*0.56, 300) : Math.min(VW*0.24, 380); return [cw, cw*1.25]; }
+function cardSize(){ const cw = isNarrow() ? Math.min(VW*0.5, 280) : Math.min(VW*0.2, 330); return [cw, cw*1.25]; }
 function renderStage(t){
   const p = reduce ? 0 : prog(stage);
-  const z = smooth(0.1, 0.55, p);
-  const [cw, ch] = cardSize();
-  const it = (VH - ch)/2 * z, il = (VW - cw)/2 * z;
-  hero.style.clipPath = `inset(${it}px ${il}px ${it}px ${il}px round ${14*z}px)`;
-  heroImg.style.transform = `scale(${1.08 - 0.08*z})`;
-  const c = smooth(0.03, 0.2, p);
-  heroCopy.style.opacity = 1 - c; heroCopy.style.transform = `translateY(${-c*60}px)`;
-  hero.querySelector('.hero__scrim').style.opacity = 1 - z;
-  heroTag.style.setProperty('--ch', ch + 'px'); heroTag.style.opacity = smooth(0.55, 0.65, p);
+  // the hero lifts away: lede and footer fade, the wordmark shrinks up and out
+  const o = smooth(0.04, 0.3, p);
+  heroTop.style.opacity = heroFoot.style.opacity = (1 - smooth(0.02, 0.14, p)).toFixed(3);
+  heroWord.style.transform = `translateY(${-o * 55}vh) scale(${1 - o * 0.55})`;
+  heroWord.style.opacity = (1 - smooth(0.2, 0.32, p)).toFixed(3);
+  hero.style.background = `rgba(251,249,245,${(1 - smooth(0.22, 0.34, p)).toFixed(3)})`;
+  trailOn = p < 0.12;
+  hero.style.pointerEvents = p > 0.3 ? 'none' : '';
+  // the work arrives: centre card, then tiles around it
+  const [cw] = cardSize(); center.style.setProperty('--cw2', cw + 'px');
+  const c = smooth(0.26, 0.48, p);
+  center.style.opacity = c.toFixed(3);
+  center.style.transform = `translateY(${(1 - c) * 30}vh) scale(${0.85 + 0.15 * c})`;
   tiles.forEach(tl => {
     const k = smooth(0.38 + tl.i*0.025, 0.66 + tl.i*0.025, p);
     tl.el.style.opacity = k;
@@ -513,7 +567,8 @@ function renderStage(t){
   });
   stageLine.style.opacity = smooth(0.62, 0.74, p);
   stageLine.style.transform = `translateX(-50%) translateY(${(1 - smooth(0.62, 0.74, p))*20}px)`;
-  nav.dataset.tone = (stage.getBoundingClientRect().bottom > 60 && z < 0.25) ? 'light' : 'ink';
+  nav.dataset.tone = 'ink';
+  nav.querySelector('.mark').style.opacity = smooth(0.18, 0.3, p).toFixed(3);
 }
 
 /* ======================= 2 · the search, scrolled too fast to read ======================= */
@@ -687,7 +742,10 @@ const SIX_M = [['kohl',27,26,44],['solen',73,24,40],['kumo',26,50,40],['kesari',
 let ccards = [];
 function buildEnd(){
   const narrow = isNarrow();
-  const HW = narrow ? VW * 0.42 : Math.min(VW * 0.2, 340), RAD = narrow ? VW * 0.5 : Math.min(VW * 0.34, 560), STEP = 24, PITCH = HW * 0.13;
+  const HW = narrow ? VW * 0.36 : Math.min(VW * 0.16, 280), RAD = narrow ? VW * 0.48 : Math.min(VW * 0.36, 600);
+  // angle between cards so neighbours never touch, and enough rise per turn that rows never overlap
+  const STEP = 2 * Math.asin(Math.min(0.99, (HW * 0.58) / RAD)) * 180 / Math.PI;
+  const perTurn = 360 / STEP, PITCH = (HW * 0.625 * 1.25) / perTurn;
   helix.style.setProperty('--hw', HW + 'px');
   hcards.forEach((c, i) => c.style.transform = `translateY(${-i * PITCH}px) rotateY(${i * STEP}deg) translateZ(${RAD}px)`);
   helix.dataset.len = HELIX.length * PITCH;
@@ -699,7 +757,7 @@ function renderEnd(){
   const p = prog(end);
   // A · the two words slide in from opposite sides and meet
   const inA = smooth(0.0, 0.13, p);
-  const spin = smooth(0.14, 0.52, p);
+  const spin = smooth(0.12, 0.56, p);
   const wordsOut = smooth(0.26, 0.36, p);
   wA.style.transform = `translateX(${-(1 - inA) * 75}vw) translateZ(${spin * 120}px)`;
   wB.style.transform = `translateX(${(1 - inA) * 75}vw) translateZ(${spin * 120}px)`;
@@ -709,12 +767,12 @@ function renderEnd(){
   const len = +helix.dataset.len || 0;
   const rise = spin;
   emRig.style.transform = `rotateY(${spin * 200}deg)`;
-  helix.style.transform = `rotateZ(-11deg) rotateX(14deg) translateY(${VH * 0.9 + len * 0.5 - rise * (VH * 2.1 + len)}px) rotateY(${spin * 160}deg)`;
-  helix.style.opacity = (p > 0.13 && p < 0.56) ? 1 : 0;
+  helix.style.transform = `rotateZ(-11deg) rotateX(14deg) translateY(${VH * 0.75 + len * 0.5 - rise * (VH * 1.5 + len)}px) rotateY(${spin * 260}deg)`;
+  helix.style.opacity = (p > 0.11 && p < 0.6) ? 1 : 0;
   // C · six sites land one by one, as a loose collage
   const away = smooth(0.8, 0.86, p);
   ccards.forEach(c => {
-    const k = smooth(0.46 + c.i * 0.03, 0.58 + c.i * 0.03, p);
+    const k = smooth(0.4 + c.i * 0.03, 0.52 + c.i * 0.03, p);
     c.el.style.opacity = (k * (1 - away)).toFixed(3);
     c.el.style.transform = `translate(-50%,-50%) translateY(${(1 - k) * 46}vh) rotate(${(1 - k) * c.r}deg) scale(${0.85 + 0.15 * k - away * 0.06})`;
   });
@@ -731,7 +789,7 @@ stops.forEach(st => {
   const p = st.querySelector('p');
   if (st.dataset.act === 'type') p.innerHTML = [...p.textContent].map((c, i) => `<span class="ch" style="--i:${i}">${c === ' ' ? ' ' : c}</span>`).join('');
   if (st.dataset.act === 'shuffle') p.innerHTML = p.textContent.split(' ').map(w => `<span class="wd">${w}</span>`).join(' ');
-  if (st.dataset.act === 'live') st.querySelector('.vortex').innerHTML = HELIX.slice(0, 10).map(k => `<img src="assets/shot/${k}.webp" alt="" loading="lazy">`).join('');
+  if (st.dataset.act === 'live'){ const m = document.createElement('div'); m.className = 'livemask'; p.before(m); m.appendChild(p); }
 });
 function act(st){
   if (reduce || st.dataset.busy) return; st.dataset.busy = 1;
@@ -751,25 +809,23 @@ function act(st){
     ], { duration: 900, delay: i * 18, easing: 'cubic-bezier(.65,0,.35,1)' }));
     done(900 + ws.length * 18);
   } else {
-    // going live: the text shoots forward and snaps back while sites spiral up past it
+    // going live: the text shoots off to the right, then comes back in from just after the middle column
+    const m = st.querySelector('.livemask'), pr = p.getBoundingClientRect(), mr = m.getBoundingClientRect();
+    const exitX = VW - pr.left + 20, enterX = -(pr.left - mr.left) - pr.width - 10;
     p.animate([
-      { transform: 'none', filter: 'blur(0)', opacity: 1 },
-      { transform: 'translateX(140px) skewX(-14deg)', filter: 'blur(7px)', opacity: .15, offset: .3 },
-      { transform: 'translateX(-10px) skewX(2deg)', filter: 'blur(0)', opacity: 1, offset: .62 },
-      { transform: 'none' }
-    ], { duration: 950, easing: 'cubic-bezier(.23,1,.32,1)' });
-    const vx = st.querySelector('.vortex'), H = vx.clientHeight, W = vx.clientWidth;
-    [...vx.children].forEach((img, i) => {
-      const frames = [];
-      for (let s = 0; s <= 16; s++){
-        const u = s / 16, a = u * Math.PI * 3.2 + i * 0.6, rad = W * 0.32 * (1 - u * 0.3);
-        const depth = Math.cos(a);
-        frames.push({ transform: `translate(-50%,-50%) translate(${Math.sin(a) * rad}px, ${(0.5 - u) * H}px) scale(${0.7 + depth * 0.3})`, opacity: u < .06 || u > .94 ? 0 : (0.8 + depth * 0.2), zIndex: depth > 0 ? 2 : 0 });
-      }
-      img.animate(frames, { duration: 1500, delay: i * 70, easing: 'cubic-bezier(.45,0,.25,1)' });
-    });
-    done(1500 + 10 * 70);
+      { transform: 'translateX(0)', filter: 'blur(0)' },
+      { transform: `translateX(${exitX}px)`, filter: 'blur(6px)', offset: .38, easing: 'steps(1, end)' },
+      { transform: `translateX(${enterX}px)`, filter: 'blur(6px)', offset: .4 },
+      { transform: 'translateX(0)', filter: 'blur(0)' }
+    ], { duration: 1300, easing: 'cubic-bezier(.65,0,.35,1)' });
+    done(1300);
   }
+}
+function sizeLiveMask(){
+  const st = document.querySelector('[data-act="live"]'), m = st && st.querySelector('.livemask'); if (!m) return;
+  const prev = st.previousElementSibling, sr = st.getBoundingClientRect();
+  const lg = (prev && !isNarrow()) ? Math.max(0, sr.left - prev.getBoundingClientRect().right) : sr.left;
+  m.style.setProperty('--lg', lg + 'px'); m.style.setProperty('--rg', Math.max(0, VW - sr.right) + 'px');
 }
 stops.forEach(st => { st.addEventListener('pointerenter', () => act(st)); st.addEventListener('click', () => act(st)); });
 if (!matchMedia('(hover: hover)').matches){
@@ -882,20 +938,22 @@ function renderCursor(){
 }
 
 /* ======================= loop ======================= */
-let lastY = scrollY;
+let lastY = scrollY, lastT = 0;
 function frame(t){
+  autoTrail(t - lastT); lastT = t;
   renderStage(t); renderMiss(); renderTrust(); renderRing(); renderEnd();
   const dy = Math.abs(scrollY - lastY); lastY = scrollY; scrollKick = Math.min(1, scrollKick + dy * 0.004);
   if (artVisible) drawArt(t);
   if (fine) renderCursor();
   requestAnimationFrame(frame);
 }
+function fitWord(){ heroWord.style.fontSize = ''; const fs = parseFloat(getComputedStyle(heroWord).fontSize), w = heroWord.scrollWidth; heroWord.style.fontSize = (fs * (VW * 0.95) / w) + 'px'; }
 function layout(){
-  VW = innerWidth; VH = innerHeight;
-  buildTiles(); buildLogos(); buildRing(); buildCarousel(); buildEnd(); buildArt(); measureFeed(); collectHot();
+  VW = innerWidth; VH = innerHeight; fitWord();
+  buildTiles(); buildLogos(); buildRing(); buildCarousel(); buildEnd(); buildArt(); measureFeed(); collectHot(); sizeLiveMask();
   front = -1;
 }
-document.fonts.ready.then(() => { buildArt(); measureFeed(); });
+document.fonts.ready.then(() => { fitWord(); buildArt(); measureFeed(); });
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(layout, 150); });
 layout();
 requestAnimationFrame(frame);
