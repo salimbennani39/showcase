@@ -13,7 +13,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2316130F'/%3E%3Ctext x='16' y='22' font-family='Arial' font-size='15' font-weight='300' fill='%23F4EFE7' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&family=Host+Grotesk:wght@300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&family=Host+Grotesk:wght@300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{
   --canvas:#FBF9F5; --cream:#F2ECE2; --cream-2:#E9E1D4;
@@ -320,13 +320,22 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   .bigname{top:clamp(200px,30vh,300px)}
   .em__cta{align-items:center}
 }
+/* LV-style wordmark everywhere the brand appears */
+.mark,.hero__word,.lv{font-family:Jost,var(--sans);text-transform:uppercase}
+.mark b,.hero__word b,.lv b{font-weight:500}
+.mark i,.hero__word i,.lv i{font-style:normal;font-weight:300}
+.mark{letter-spacing:.2em;font-size:clamp(18px,1.5vw,22px)}
+.mark i{opacity:1}
+.hero__word{letter-spacing:.06em}
+.hero__word b{font-weight:600}
+.lv{letter-spacing:.16em;font-size:.92em}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><filter id="mblur" x="0" y="-20%" width="100%" height="140%"><feGaussianBlur id="mblurStd" stdDeviation="0 0"/></filter></svg>
 
 <header class="nav" id="nav">
-  <a class="mark" href="#top" aria-label="Showcase, back to top"><span>SHOW</span><span>CASE</span></a>
+  <a class="mark" href="#top" aria-label="Showcase, back to top"><b>SHOW</b><i>CASE</i></a>
   <nav class="nav__links" aria-label="Sections">
     <a href="#work">Work</a><a href="#index">Index</a><a href="#process">Process</a>
   </nav>
@@ -346,7 +355,7 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
           <p class="hero__lede">Your next customer is deciding.<br><em>Right now.</em></p>
           <a class="pill hero__cta" data-wa href="#contact">Get your site <span aria-hidden="true">→</span></a>
         </div>
-        <h1 class="hero__word" id="heroWord" aria-label="Showcase">SH<span class="emo" aria-hidden="true"><span class="emo__in" id="emo">💅</span></span>WCASE</h1>
+        <h1 class="hero__word" id="heroWord" aria-label="Showcase"><b>SH<span class="emo" aria-hidden="true"><span class="emo__in" id="emo">💅</span></span>W</b><i>CASE</i></h1>
         <div class="hero__trail" id="trail" aria-hidden="true"></div>
         <div class="hero__foot">
           <span>Websites for restaurants, cafés, salons, guesthouses, boutiques &amp; more</span>
@@ -375,7 +384,7 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   <!-- 3 · built for: names fly through, after Elena Voss -->
   <section class="trust" id="about" aria-labelledby="trustTitle">
     <div class="trust__head"><h2 id="trustTitle">Built for the places people remember, and the businesses behind them.</h2>
-      <p class="trust__note"><b>Showcase</b> is a small studio building a digital presence and websites that feel like walking in: your real space, your menu or services, booking, fast on every phone.</p>
+      <p class="trust__note"><span class="lv"><b>SHOW</b><i>CASE</i></span> is a small studio building a digital presence and websites that feel like walking in: your real space, your menu or services, booking, fast on every phone.</p>
     </div>
     <div class="trust__field" aria-hidden="true"><div class="trust__grid" id="logoGrid"></div></div>
   </section>
@@ -443,7 +452,7 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
           </a>
         </div>
         <div class="art" id="art"><canvas id="artCanvas" role="img" aria-label="The word Showcase drawn in fine horizontal lines that ripple under your cursor."></canvas></div>
-        <footer class="foot" id="foot"><span>© 2026 Showcase · Websites for brands</span><span>The brands shown are design studies with fictional names.</span></footer>
+        <footer class="foot" id="foot"><span>© 2026 <span class="lv"><b>SHOW</b><i>CASE</i></span> · Websites for brands</span><span>The brands shown are design studies with fictional names.</span></footer>
       </div>
     </div>
   </section>
@@ -891,10 +900,12 @@ function buildArt(){
   cv.width = w * dpr; cv.height = h * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   const m = document.createElement('canvas'); MW = m.width = Math.round(w); MH = m.height = Math.round(h);
   const mc = m.getContext('2d');
-  let size = h * 0.9; mc.font = `800 ${size}px "Host Grotesk", Archivo, sans-serif`;
-  const tw = mc.measureText('SHOWCASE').width; if (tw > w * 0.94) size *= (w * 0.94) / tw;
-  mc.font = `800 ${size}px "Host Grotesk", Archivo, sans-serif`; mc.textAlign = 'center'; mc.textBaseline = 'alphabetic';
-  mc.fillText('SHOWCASE', w / 2, h * 0.5 + size * 0.36);
+  // LV-style wordmark: Jost capitals, wide spacing, SHOW heavier than CASE
+  const part = (s, wt, sz) => { mc.font = `${wt} ${sz}px Jost, sans-serif`; mc.letterSpacing = (sz * 0.1) + 'px'; return mc.measureText(s).width; };
+  let size = h * 0.8; const tw = part('SHOW', 600, size) + part('CASE', 400, size); if (tw > w * 0.94) size *= (w * 0.94) / tw;
+  const wa = part('SHOW', 600, size), wb = part('CASE', 400, size), x0 = (w - wa - wb) / 2, by = h * 0.5 + size * 0.36;
+  mc.textAlign = 'left'; mc.textBaseline = 'alphabetic';
+  part('SHOW', 600, size); mc.fillText('SHOW', x0, by); part('CASE', 400, size); mc.fillText('CASE', x0 + wa, by);
   mask = mc.getImageData(0, 0, MW, MH).data;
   const gap = isNarrow() ? 6 : 7;
   lines = []; for (let y = gap; y < h - 2; y += gap) lines.push({ y, off: new Float32Array(Math.ceil(w / 6) + 2), vel: new Float32Array(Math.ceil(w / 6) + 2) });
