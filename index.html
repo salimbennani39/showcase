@@ -14,7 +14,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,300..900;1,62..125,300..900&family=Host+Grotesk:wght@300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="assets/hero.webp">
 <style>
 :root{
   --canvas:#FBF9F5; --cream:#F2ECE2; --cream-2:#E9E1D4;
@@ -100,8 +99,8 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 /* ---------- 3 · built for (logo field) ---------- */
 .trust{position:relative;height:320vh;background:var(--cream)}
 .trust__head{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;justify-content:center;text-align:center}
-.trust__head h2{width:min(64vw,1100px);margin:0;font:400 clamp(40px,5.4vw,96px)/1.15 var(--title);letter-spacing:-.02em;text-wrap:balance}
-.trust__head h2 .w{display:inline-block;opacity:.12;transition:opacity .5s var(--ease)}
+.trust__head h2{width:min(64vw,1100px);margin:0;font:400 clamp(40px,5.4vw,96px)/1.15 var(--title);letter-spacing:-.02em}
+.trust__head h2 .w{display:inline;opacity:.12;transition:opacity .5s var(--ease)}
 .trust__head h2 .w.on{opacity:1}
 .trust__field{position:sticky;top:0;margin-top:-100vh;margin-top:-100svh;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:2}
 .trust__grid{display:grid;grid-template-columns:repeat(5,14vw);gap:1.5vw 3vw;perspective:350vw}
@@ -265,8 +264,8 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   .chip{flex:none;height:34px;padding:0 14px;font-size:13px}
   .bigname{top:clamp(180px,27vh,240px);color:var(--ink);-webkit-text-stroke:0}
   .tiles{top:clamp(180px,27vh,240px)}
-  .ring{top:60%}
-  .work__cap{bottom:clamp(18px,4vh,34px);gap:14px}
+  .ring{top:55%}
+  .work__cap{bottom:clamp(10px,2.4vh,22px);gap:14px}
   .work__cap b{font-size:17px}
   .index__grid{grid-template-columns:1fr}
   .preview{display:none}
@@ -334,7 +333,7 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
     <div class="stage__pin">
       <p class="stage__line" id="stageLine">Every one of these started as a <em>link in bio.</em></p>
       <div id="tiles"></div>
-      <div class="center" id="center" aria-hidden="true"><img src="assets/cover/jacaranda.webp" alt=""><span>Jacarandá</span></div>
+      <div class="center" id="center" aria-hidden="true"><img src="assets/sm/c-jacaranda.webp" data-full="assets/cover/jacaranda.webp" alt=""><span>Jacarandá</span></div>
       <div class="hero" id="hero">
         <div class="hero__top">
           <p class="hero__lede">Your next customer is deciding.<br><em>Right now.</em></p>
@@ -487,6 +486,7 @@ const isNarrow = () => innerWidth <= 860;
 let VW = innerWidth, VH = innerHeight;
 const MOB = matchMedia('(max-width:860px)').matches;
 const SHOT = k => MOB ? `assets/sm/s-${k}.webp` : `assets/shot/${k}.webp`;
+if (!MOB) document.querySelectorAll('img[data-full]').forEach(i => i.src = i.dataset.full);
 const COVER = k => MOB ? `assets/sm/c-${k}.webp` : `assets/cover/${k}.webp`;
 function rng(seed){ return () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; }; }
 
@@ -755,7 +755,7 @@ function buildCarousel(){ carousel.innerHTML = list.map(s => `<a class="ccard" h
 /* ======================= 5 · index ======================= */
 const rows = $('#rows'), pvA = $('#pvA'), pvB = $('#pvB');
 let pvTop = pvA, pvCur = '';
-rows.innerHTML = SITES.map((s, i) => `<li class="row" data-i="${i}"><a href="${s.url}" target="_blank" rel="noopener"><img src="${SHOT(s.k)}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type}</span><span class="arr" aria-hidden="true">↗</span></a></li>`).join('');
+rows.innerHTML = SITES.map((s, i) => `<li class="row" data-i="${i}"><a href="${s.url}" target="_blank" rel="noopener"><img src="${SHOT(s.k)}" alt="" loading="lazy"><b>${s.name}</b><span>${s.type}</span><span class="arr" aria-hidden="true">↗</span></a></li>`).join('');
 function showPreview(i){
   const s = SITES[i]; if (pvCur === s.k) return; pvCur = s.k;
   rows.querySelectorAll('.row').forEach(r => r.classList.toggle('is-on', +r.dataset.i === i));
@@ -777,7 +777,7 @@ const end = $('#contact'), emRig = $('#emRig'), helix = $('#helix'), wA = $('#wA
 const HELIX = ['kohl','sirocco','nacre','kaze','solen','huitieme','kumo','jacaranda','alize','le41','firouz','nour','zvezda','bottega','ambar','nagi','lumi','detour','kesari','kuno'];
 const COIL_N = isNarrow() ? 18 : 30;
 const COIL = Array.from({ length: COIL_N }, (_, i) => HELIX[i % HELIX.length]);
-helix.innerHTML = COIL.map(k => `<div class="hcard"><img src="${SHOT(k)}" alt="" decoding="async">${isNarrow() ? '<b></b>' : `<b><img src="${SHOT(k)}" alt="" decoding="async"></b>`}</div>`).join('');
+helix.innerHTML = COIL.map(k => `<div class="hcard"><img src="${SHOT(k)}" alt="" decoding="async"><b><img src="${SHOT(k)}" alt="" decoding="async"></b></div>`).join('');
 const hcards = [...helix.children];
 const SIX = [['kohl',27,30,25],['solen',50,27,17],['kumo',73,30,23],['kesari',25,68,22],['sirocco',49,72,19],['jacaranda',73,68,24]];
 const SIX_M = [['kohl',27,26,44],['solen',73,24,40],['kumo',26,50,40],['kesari',74,52,44],['sirocco',27,76,42],['jacaranda',73,78,42]];
@@ -1001,6 +1001,11 @@ function layout(){
   front = -1;
 }
 document.fonts.ready.then(() => { fitWord(); buildArt(); measureFeed(); cacheGeo(); });
+if (MOB){
+  const first = SITES.map(s => `assets/sm/c-${s.k}.webp`), next = SITES.map(s => `assets/sm/s-${s.k}.webp`);
+  const warmList = (arr, pri) => arr.forEach(src => { const i = new Image(); if (pri) i.fetchPriority = 'high'; i.decoding = 'async'; i.src = src; i.decode && i.decode().catch(() => {}); });
+  setTimeout(() => { warmList(first, true); setTimeout(() => warmList(next, false), 400); }, 250);
+}
 addEventListener('load', () => {
   cacheGeo();
   // warm every small image so nothing appears blank mid-animation
