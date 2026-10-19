@@ -84,7 +84,7 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 @keyframes blink{50%{opacity:0}}
 .feed{position:relative;height:calc(var(--rh,92px) * 3 + 20px);margin-top:14px;overflow:hidden;opacity:0;transition:opacity .4s var(--ease);-webkit-mask:linear-gradient(180deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent);mask:linear-gradient(180deg,transparent 0,#000 14px,#000 calc(100% - 14px),transparent)}
 .feed.on{opacity:1}
-.feed__list{list-style:none;margin:0;padding:6px 0;display:grid;gap:10px;will-change:transform;filter:url(#mblur)}
+.feed__list{list-style:none;margin:0;padding:6px 0;display:grid;gap:10px;will-change:transform,filter}
 .res{display:grid;grid-template-columns:92px 1fr;gap:12px;align-items:center;padding:8px;border-radius:16px;background:var(--canvas)}
 .res img{width:92px;height:66px;object-fit:cover;border-radius:10px}
 .res b{display:block;font-size:15px;letter-spacing:-.01em}
@@ -179,9 +179,10 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 .em__helix{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform}
 .hcard{position:absolute;left:0;top:0;width:var(--hw);aspect-ratio:16/10;margin:calc(var(--hw) * -.3125) 0 0 calc(var(--hw) * -.5);transform-style:preserve-3d}
 .hcard > *{position:absolute;inset:0;border-radius:4px;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
-.hcard img{width:100%;height:100%;object-fit:cover;object-position:top;box-shadow:0 14px 28px -20px rgba(40,25,10,.55)}
+.hcard img{width:100%;height:100%;object-fit:cover;object-position:top}
 .hcard b{transform:rotateY(180deg)}
 .hcard b img{opacity:.5;filter:saturate(.7)}
+.hcard b:empty{background:#E9E1D4;opacity:.55}
 .em__sub{position:absolute;left:50%;top:50%;translate:-50% -50%;margin:0;font:500 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--ink-soft);opacity:0}
 .em__collage{position:absolute;inset:0}
 .ccol{position:absolute;margin:0;width:var(--w);border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -38px rgba(40,25,10,.6),0 0 0 1px var(--line);opacity:0;will-change:transform,opacity}
@@ -235,13 +236,20 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   .pill{height:42px;padding:0 16px;font-size:14px}
   .hero__word{top:50%}
   .hero__foot span:last-child{display:none}
-  .miss__pin{grid-template-columns:1fr;align-content:center;gap:24px;padding-top:80px}
+  .miss__pin{grid-template-columns:1fr;align-content:start;gap:16px;padding-top:calc(78px + 3vh);padding-bottom:16px}
   .miss__copy{order:-1}
-  .miss__copy h2{font-size:clamp(32px,9.5vw,50px)}
-  .miss__copy p{margin-top:12px;font-size:15px}
-  .phone{padding:16px 14px;border-radius:22px}
+  .miss__copy h2{font-size:clamp(28px,8.4vw,44px)}
+  .miss__copy p{margin-top:10px;font-size:14px;line-height:1.45}
+  .phone{padding:12px;border-radius:22px;width:100%}
+  .search{height:42px;font-size:15px}
+  .feed{margin-top:10px}
+  .feed__list{gap:8px}
+  .res{padding:6px;border-radius:12px}
+  .res b{font-size:14px}
+  .res span{font-size:12px}
+  .res i{margin-top:4px;font-size:10.5px;padding:2px 7px}
   .res{grid-template-columns:72px 1fr}
-  .res img{width:72px;height:54px}
+  .res img{width:64px;height:46px;border-radius:8px}
   .trust__head h2{width:86vw;font-size:clamp(32px,9vw,52px)}
   .trust__grid{grid-template-columns:repeat(3,26vw);gap:6vw}
   .logo{height:20vw}
@@ -481,7 +489,12 @@ const waHref = 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(WA_TE
 document.querySelectorAll('[data-wa]').forEach(a => { a.href = waHref; a.target = '_blank'; a.rel = 'noopener'; });
 
 /* progress of a pinned section: 0 when its top hits the viewport top, 1 when its bottom leaves */
-function prog(el){ const r = el.getBoundingClientRect(); const travel = r.height - VH; return travel > 0 ? clamp(-r.top / travel) : (r.top < 0 ? 1 : 0); }
+let sy = scrollY;
+const GEO = new Map();
+function cacheGeo(){ document.querySelectorAll('main > section').forEach(el => { const r = el.getBoundingClientRect(); GEO.set(el, { top: r.top + scrollY, h: el.offsetHeight }); }); }
+function geo(el){ return GEO.get(el) || { top: 0, h: VH }; }
+function prog(el){ const g = geo(el), travel = g.h - VH; return travel > 0 ? clamp((sy - g.top) / travel) : (sy > g.top ? 1 : 0); }
+function near(el){ const g = geo(el); return sy + VH * 1.6 > g.top && sy - VH * 0.6 < g.top + g.h; }
 
 /* ======================= 1 · stage ======================= */
 const stage = $('#stage'), hero = $('#hero'), heroWord = $('#heroWord'), heroTop = hero.querySelector('.hero__top'), heroFoot = hero.querySelector('.hero__foot'), center = $('#center'), stageLine = $('#stageLine'), nav = $('#nav');
@@ -531,7 +544,7 @@ addEventListener('pointermove', e => { lastPointerAt = performance.now(); trailA
 let autoT = 0;
 function autoTrail(dt){
   if (reduce || performance.now() - lastPointerAt < 2500) return;
-  const r = hero.getBoundingClientRect(); if (r.bottom < 0) return;
+  if (sy > VH * 0.9) return; const r = { left: 0, top: 0, width: VW, height: VH };
   autoT += dt * 0.00055;
   const x = r.width * (0.5 + 0.38 * Math.sin(autoT * 1.3)), y = r.height * (0.52 + 0.24 * Math.sin(autoT * 2.1 + 1));
   trailAt(x + r.left, y + r.top);
@@ -550,7 +563,7 @@ function buildTiles(){
     const f = document.createElement('figure'); f.className = 'tile';
     f.style.setProperty('--w', w + 'vw'); f.style.setProperty('--ar', ar);
     f.style.left = x + '%'; f.style.top = y + '%';
-    f.innerHTML = `<div class="tile__in"><img src="assets/cover/${k}.webp" alt="" loading="lazy"><figcaption><span>${s.name}</span></figcaption></div>`;
+    f.innerHTML = `<div class="tile__in"><img src="assets/sm/c-${k}.webp" alt=""><figcaption><span>${s.name}</span></figcaption></div>`;
     host.appendChild(f);
     return { el: f, inner: f.firstChild, dx: x - 50, dy: y - 50, d, i, ph: i * 1.7 };
   });
@@ -592,7 +605,7 @@ function renderStage(t){
 const miss = $('#miss'), qEl = $('#q'), feed = $('#feed'), feedList = $('#feedList'), blurStd = $('#mblurStd');
 const QUERY = 'best places near me';
 const missLines = [...document.querySelectorAll('#missTitle span')], missP = document.querySelector('.miss__copy p');
-const rowHTML = s => `<li class="res"><img src="assets/shot/${s.k}.webp" alt="" loading="lazy"><div><b>${s.name}</b><span>${s.type}</span><i>${TAGS[s.cat][0]}</i><i>${TAGS[s.cat][1]}</i></div></li>`;
+const rowHTML = s => `<li class="res"><img src="assets/sm/s-${s.k}.webp" alt="" decoding="async"><div><b>${s.name}</b><span>${s.type}</span><i>${TAGS[s.cat][0]}</i><i>${TAGS[s.cat][1]}</i></div></li>`;
 const FEED = [...SITES, ...SITES, ...SITES.slice().reverse(), ...['nacre','sirocco','kohl'].map(k => SITES.find(s => s.k === k))];
 feedList.innerHTML = FEED.map(rowHTML).join('');
 let rowH = 92, feedY = 0;
@@ -608,7 +621,7 @@ function renderMiss(){
   const prev = feedY;
   feedY += (target - feedY) * (reduce ? 1 : 0.22);
   const v = Math.abs(feedY - prev);
-  blurStd.setAttribute('stdDeviation', `0 ${Math.min(26, v * 0.11).toFixed(1)}`);
+  const bl = Math.min(5, v * 0.035); feedList.style.filter = bl > 0.25 ? `blur(${bl.toFixed(1)}px)` : 'none';
   feedList.style.transform = `translateY(${-feedY}px)`;
   missLines[0].classList.toggle('on', p > 0.04 || reduce);
   missLines[1].classList.toggle('on', p > 0.3 || reduce);
@@ -641,7 +654,7 @@ function buildLogos(){
   LT = Math.max(...logos.map(L => L.start + L.o + L.c));
 }
 function renderTrust(){
-  const r = trust.getBoundingClientRect();
+  const g = geo(trust), r = { top: g.top - sy, height: g.h };
   const hp = clamp(-r.top / (VH * 0.8));
   wordEls.forEach((w, i) => w.classList.toggle('on', reduce || hp * 1.4 > i / wordEls.length));
   if (reduce) return;
@@ -680,7 +693,7 @@ function setFilter(k){
   front = -1; renderRing();
 }
 function buildRing(){
-  ring.innerHTML = '';
+  ring.innerHTML = ''; renderRing.last = null;
   CW = isNarrow() ? Math.min(VW * 0.46, VH * 0.3) : Math.min(VW * 0.17, 270, VH * 0.29);
   const n = Math.max(list.length, 10);
   R = (CW / 2) / Math.tan(Math.PI / n) * 1.12;
@@ -688,7 +701,7 @@ function buildRing(){
   list.forEach((s, i) => {
     const b = document.createElement('button'); b.className = 'rcard'; b.type = 'button';
     b.setAttribute('aria-label', `${s.name}, ${s.type}. Open the site.`);
-    b.innerHTML = `<img src="assets/cover/${s.k}.webp" alt="" loading="lazy">`;
+    b.innerHTML = `<img src="assets/sm/c-${s.k}.webp" alt="" decoding="async">`;
     b.style.transform = `rotateY(${i * 360 / n}deg) translateZ(${R}px)`;
     b.addEventListener('click', () => {
       if (i === front) window.open(s.url, '_blank', 'noopener');
@@ -720,20 +733,22 @@ function renderRing(){
   const ang = -p * (list.length - 1) * step;
   ring.style.transform = `translateZ(${-R}px) rotateX(-7deg) rotateY(${ang}deg)`;
   const idx = clamp(Math.round(-ang / step), 0, list.length - 1);
-  [...ring.children].forEach((el, i) => {
-    const rel = ((i * step + ang) % 360 + 540) % 360 - 180, vis = Math.cos(rel * Math.PI / 180);
-    el.style.opacity = clamp(0.25 + vis * 0.9, 0, 1);
-    el.style.filter = i === idx ? 'none' : `saturate(${0.55 + vis*0.45})`;
-  });
+  if (Math.abs(ang - (renderRing.last ?? 1e9)) > 0.05){
+    renderRing.last = ang;
+    [...ring.children].forEach((el, i) => {
+      const rel = ((i * step + ang) % 360 + 540) % 360 - 180, vis = Math.cos(rel * Math.PI / 180);
+      el.style.opacity = clamp(0.25 + vis * 0.9, 0, 1).toFixed(2);
+    });
+  }
   setFront(idx);
 }
 const carousel = $('#carousel');
-function buildCarousel(){ carousel.innerHTML = list.map(s => `<a class="ccard" href="${s.url}" target="_blank" rel="noopener"><img src="assets/cover/${s.k}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type}</span></a>`).join(''); }
+function buildCarousel(){ carousel.innerHTML = list.map(s => `<a class="ccard" href="${s.url}" target="_blank" rel="noopener"><img src="assets/sm/c-${s.k}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type}</span></a>`).join(''); }
 
 /* ======================= 5 · index ======================= */
 const rows = $('#rows'), pvA = $('#pvA'), pvB = $('#pvB');
 let pvTop = pvA, pvCur = '';
-rows.innerHTML = SITES.map((s, i) => `<li class="row" data-i="${i}"><a href="${s.url}" target="_blank" rel="noopener"><img src="assets/shot/${s.k}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type}</span><span class="arr" aria-hidden="true">↗</span></a></li>`).join('');
+rows.innerHTML = SITES.map((s, i) => `<li class="row" data-i="${i}"><a href="${s.url}" target="_blank" rel="noopener"><img src="assets/sm/s-${s.k}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type}</span><span class="arr" aria-hidden="true">↗</span></a></li>`).join('');
 function showPreview(i){
   const s = SITES[i]; if (pvCur === s.k) return; pvCur = s.k;
   rows.querySelectorAll('.row').forEach(r => r.classList.toggle('is-on', +r.dataset.i === i));
@@ -753,8 +768,9 @@ new IntersectionObserver((es, io) => es.forEach(e => { if (e.isIntersecting){ e.
 /* ======================= 7 · design in motion → spiral → collage → logo ======================= */
 const end = $('#contact'), emRig = $('#emRig'), helix = $('#helix'), wA = $('#wA'), wB = $('#wB'), emSub = $('#emSub'), collage = $('#collage'), emCta = $('#emCta'), foot = $('#foot'), emFinal = $('#emFinal');
 const HELIX = ['kohl','sirocco','nacre','kaze','solen','huitieme','kumo','jacaranda','alize','le41','firouz','nour','zvezda','bottega','ambar','nagi','lumi','detour','kesari','kuno'];
-const COIL = Array.from({ length: 30 }, (_, i) => HELIX[i % HELIX.length]);
-helix.innerHTML = COIL.map(k => `<div class="hcard"><img src="assets/shot/${k}.webp" alt="" loading="lazy"><b><img src="assets/shot/${k}.webp" alt="" loading="lazy"></b></div>`).join('');
+const COIL_N = isNarrow() ? 18 : 30;
+const COIL = Array.from({ length: COIL_N }, (_, i) => HELIX[i % HELIX.length]);
+helix.innerHTML = COIL.map(k => `<div class="hcard"><img src="assets/sm/s-${k}.webp" alt="" decoding="async">${isNarrow() ? '<b></b>' : `<b><img src="assets/sm/s-${k}.webp" alt="" decoding="async"></b>`}</div>`).join('');
 const hcards = [...helix.children];
 const SIX = [['kohl',27,30,25],['solen',50,27,17],['kumo',73,30,23],['kesari',25,68,22],['sirocco',49,72,19],['jacaranda',73,68,24]];
 const SIX_M = [['kohl',27,26,44],['solen',73,24,40],['kumo',26,50,40],['kesari',74,52,44],['sirocco',27,76,42],['jacaranda',73,78,42]];
@@ -768,7 +784,7 @@ function buildEnd(){
   helix.style.setProperty('--hw', HW + 'px');
   hcards.forEach((c, i) => c.style.transform = `translateY(${-i * PITCH}px) rotateY(${i * STEP}deg) translateZ(${RAD}px)`);
   helix.dataset.len = hcards.length * PITCH;
-  collage.innerHTML = (narrow ? SIX_M : SIX).map(([k, x, y, w], i) => `<figure class="ccol" style="--w:${w}vw;left:${x}%;top:${y}%"><img src="assets/shot/${k}.webp" alt="" loading="lazy"></figure>`).join('');
+  collage.innerHTML = (narrow ? SIX_M : SIX).map(([k, x, y, w], i) => `<figure class="ccol" style="--w:${w}vw;left:${x}%;top:${y}%"><img src="assets/sm/s-${k}.webp" alt=""></figure>`).join('');
   ccards = [...collage.children].map((el, i) => ({ el, i, r: (i % 2 ? 1 : -1) * (6 + i * 2) }));
 }
 function renderEnd(){
@@ -960,7 +976,12 @@ function renderCursor(){
 let lastY = scrollY, lastT = 0;
 function frame(t){
   autoTrail(t - lastT); lastT = t;
-  renderStage(t); renderMiss(); renderTrust(); renderRing(); renderEnd();
+  const d = scrollY - sy; sy = Math.abs(d) < 0.4 ? scrollY : sy + d * (fine ? 0.22 : 0.16);
+  if (near(stage)) renderStage(t);
+  if (near(miss)) renderMiss();
+  if (near(trust)) renderTrust();
+  if (near(work)) renderRing();
+  if (near(end)) renderEnd();
   const dy = Math.abs(scrollY - lastY); lastY = scrollY; scrollKick = Math.min(1, scrollKick + dy * 0.004);
   if (artVisible) drawArt(t);
   if (fine) renderCursor();
@@ -969,10 +990,18 @@ function frame(t){
 function fitWord(){ heroWord.style.fontSize = ''; const fs = parseFloat(getComputedStyle(heroWord).fontSize), w = heroWord.scrollWidth; heroWord.style.fontSize = (fs * (VW * 0.95) / w) + 'px'; }
 function layout(){
   VW = innerWidth; VH = innerHeight; fitWord();
-  buildTiles(); buildLogos(); buildRing(); buildCarousel(); buildEnd(); buildArt(); measureFeed(); collectHot(); sizeLiveMask();
+  buildTiles(); buildLogos(); buildRing(); buildCarousel(); buildEnd(); buildArt(); measureFeed(); collectHot(); sizeLiveMask(); cacheGeo();
   front = -1;
 }
-document.fonts.ready.then(() => { fitWord(); buildArt(); measureFeed(); });
+document.fonts.ready.then(() => { fitWord(); buildArt(); measureFeed(); cacheGeo(); });
+addEventListener('load', () => {
+  cacheGeo();
+  // warm every small image so nothing appears blank mid-animation
+  const warm = [...new Set(SITES.flatMap(s => [`assets/sm/c-${s.k}.webp`, `assets/sm/s-${s.k}.webp`]))];
+  const go = () => warm.forEach(src => { const i = new Image(); i.decoding = 'async'; i.src = src; i.decode && i.decode().catch(() => {}); });
+  'requestIdleCallback' in window ? requestIdleCallback(go, { timeout: 1500 }) : setTimeout(go, 600);
+});
+new ResizeObserver(() => cacheGeo()).observe(document.querySelector('main'));
 let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(layout, 150); });
 layout();
 requestAnimationFrame(frame);
