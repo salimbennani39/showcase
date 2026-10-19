@@ -149,7 +149,7 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 
 /* ---------- 6 · process ---------- */
 .process{background:var(--cream);padding:clamp(80px,11vw,150px) var(--gutter)}
-.process h2{margin:0 0 clamp(48px,7vw,90px);font:700 clamp(36px,5vw,80px)/.92 var(--sans);letter-spacing:-.05em;max-width:14ch}
+.process h2{margin:0 0 clamp(90px,11vw,160px);font:700 clamp(36px,5vw,80px)/.92 var(--sans);letter-spacing:-.05em;max-width:14ch}
 .track{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(20px,4vw,60px)}
 .track::before{content:"";position:absolute;left:0;right:0;top:7px;height:1.5px;background:var(--ink);transform-origin:left;transform:scaleX(var(--draw,0));transition:transform 1.4s var(--ease)}
 .stop{position:relative;padding-top:42px;opacity:0;transform:translateY(16px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
@@ -161,19 +161,23 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 .stop p{margin:0;max-width:34ch;color:var(--ink-soft)}
 .pressure{margin:clamp(60px,8vw,110px) 0 0;font:400 clamp(28px,3.6vw,56px)/1.05 var(--serif);font-style:italic;max-width:24ch;text-wrap:balance}
 
-/* ---------- 7 · design in motion, then the logo ---------- */
-.end{position:relative;height:420vh;background:var(--canvas)}
+/* ---------- 7 · design in motion: words meet, a spiral of sites rises, a collage lands, then the logo ---------- */
+.end{position:relative;height:540vh;background:var(--canvas)}
 .end__pin{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
-.em__title{position:absolute;left:var(--gutter);right:var(--gutter);top:50%;translate:0 -50%;margin:0;font:400 clamp(56px,9vw,170px)/1.02 var(--title);letter-spacing:-.035em;will-change:transform,opacity}
-.em__title .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em}
-.em__title .w > span{display:inline-block;transform:translateY(105%);will-change:transform}
-.em__grid{position:absolute;left:50%;top:50%;width:min(86vw,1280px);translate:-50% -50%;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,1.6vw,24px)}
-.em__col{display:grid;gap:clamp(12px,1.6vw,24px);will-change:transform}
-.shot{margin:0;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -38px rgba(40,25,10,.6),0 0 0 1px var(--line);opacity:0;will-change:transform,opacity}
-.shot__bar{display:flex;gap:5px;padding:7px 10px;background:var(--cream)}
-.shot__bar i{width:7px;height:7px;border-radius:50%;background:rgba(22,19,15,.2)}
-.shot img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
-.em__final{position:absolute;inset:0;display:flex;flex-direction:column}
+.em__scene{position:absolute;inset:0;perspective:1500px;perspective-origin:50% 50%}
+.em__rig{position:absolute;left:50%;top:50%;width:0;height:0;transform-style:preserve-3d;will-change:transform}
+.em__w{position:absolute;margin:0;white-space:nowrap;font:500 clamp(54px,8.2vw,150px)/.9 var(--title);letter-spacing:-.05em;text-transform:uppercase;color:#2A2622;backface-visibility:hidden;-webkit-backface-visibility:hidden;will-change:transform,opacity}
+.em__w--a{right:2vw;bottom:2vh}
+.em__w--b{left:4vw;top:4vh}
+.em__helix{position:absolute;left:0;top:0;transform-style:preserve-3d;will-change:transform}
+.hcard{position:absolute;left:0;top:0;width:var(--hw);aspect-ratio:16/10;margin:calc(var(--hw) * -.3125) 0 0 calc(var(--hw) * -.5);border-radius:6px;overflow:hidden;background:#fff;box-shadow:0 20px 40px -26px rgba(40,25,10,.55)}
+.hcard img{width:100%;height:100%;object-fit:cover;object-position:top}
+.em__sub{position:absolute;left:50%;top:50%;translate:-50% -50%;margin:0;font:500 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--ink-soft);opacity:0}
+.em__collage{position:absolute;inset:0}
+.ccol{position:absolute;margin:0;width:var(--w);border-radius:8px;overflow:hidden;background:#fff;box-shadow:0 30px 60px -38px rgba(40,25,10,.6),0 0 0 1px var(--line);opacity:0;will-change:transform,opacity}
+.ccol img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.em__final{position:absolute;inset:0;display:flex;flex-direction:column;pointer-events:none}
+.em__final.on{pointer-events:auto}
 .em__cta{padding:clamp(90px,12vh,130px) var(--gutter) 0;display:flex;justify-content:space-between;align-items:end;gap:28px;flex-wrap:wrap;opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease)}
 .em__cta.on{opacity:1;transform:none}
 .em__cta h2{margin:0;font:700 clamp(44px,7vw,124px)/.9 var(--sans);letter-spacing:-.055em}
@@ -181,6 +185,32 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 .art canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:pan-y}
 .foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;padding:18px var(--gutter) 22px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line);opacity:0;transition:opacity .6s var(--ease)}
 .foot.on{opacity:1}
+
+/* ---------- process: each step acts out what it says ---------- */
+.stop{cursor:default}
+.stop p .ch{display:inline}
+.stop.typing p .ch{opacity:0;animation:typeOn 1ms linear forwards;animation-delay:calc(var(--i) * 7ms)}
+@keyframes typeOn{to{opacity:1}}
+.stop .peek{position:absolute;left:0;top:-142px;width:170px;border-radius:8px;overflow:hidden;box-shadow:0 24px 50px -28px rgba(40,25,10,.6),0 0 0 1px var(--line);background:#fff;opacity:0;transform:translateY(16px) scale(.92);pointer-events:none}
+.stop .peek img{width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top}
+.stop .peek b{display:block;padding:6px 8px;font:600 10px/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;background:var(--cream)}
+.stop p .wd{display:inline-block}
+.vortex{position:absolute;left:-10%;right:-10%;top:-34vh;bottom:-26vh;pointer-events:none;perspective:900px;overflow:visible}
+.vortex img{position:absolute;left:50%;top:50%;width:170px;aspect-ratio:16/10;object-fit:cover;object-position:top;border-radius:6px;box-shadow:0 16px 30px -18px rgba(40,25,10,.6);opacity:0}
+
+/* ---------- buttons light up when the pointer comes close ---------- */
+.pill,.chip{position:relative;overflow:hidden;isolation:isolate}
+.pill::after,.chip::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 25%,rgba(255,255,255,.55) 50%,transparent 75%);transform:translateX(-130%);pointer-events:none}
+.pill.is-lit::after,.chip.is-lit::after{transform:translateX(130%);transition:transform .7s var(--ease)}
+.pill.is-lit{background:#3A342C;box-shadow:0 10px 26px -12px rgba(22,19,15,.55)}
+.nav[data-tone="light"] .pill.is-lit{background:#fff;box-shadow:0 10px 30px -10px rgba(255,255,255,.6)}
+.pill--ghost.is-lit{background:var(--ink);color:var(--canvas)}
+.chip.is-lit{background:var(--ink);color:var(--canvas)}
+.nav__links a{position:relative}
+.nav__links a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:1.5px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .3s var(--ease)}
+.nav__links a.is-lit{opacity:1}
+.nav__links a.is-lit::after{transform:scaleX(1)}
+.mark.is-lit span:last-child{opacity:1;transition:opacity .25s}
 
 /* ---------- cursor ---------- */
 .cur{position:fixed;left:0;top:0;z-index:100;pointer-events:none;opacity:0;transition:opacity .18s}
@@ -228,9 +258,11 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   .track{grid-template-columns:1fr;gap:34px}
   .track::before{left:7px;right:auto;top:0;bottom:0;width:1.5px;height:auto;transform-origin:top;transform:scaleY(var(--draw,0))}
   .stop{padding:0 0 0 40px}
-  .em__grid{grid-template-columns:repeat(2,1fr);width:90vw}
-  .em__col:nth-child(3){display:none}
-  .em__title{font-size:clamp(48px,15vw,84px)}
+  .em__w{font-size:11vw}
+  .em__w--a{right:auto;left:-46vw;bottom:3vh}
+  .em__w--b{left:-8vw;top:5vh}
+  .em__sub{display:none}
+  .stop .peek{left:auto;right:0;top:-6px;width:130px}
 }
 @media (prefers-reduced-motion:reduce){
   .stage,.miss,.trust,.end{height:auto}
@@ -256,11 +288,10 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   .miss__copy h2 span,.miss__copy p,.stop{opacity:1;transform:none;transition:none}
   .track::before{transform:none}
   .end__pin{height:auto;overflow:visible}
-  .em__title{position:relative;top:auto;translate:none;padding:110px var(--gutter) 40px}
-  .em__title .w > span{transform:none}
-  .em__grid{position:relative;left:auto;top:auto;translate:none;margin:0 auto}
-  .shot{opacity:1}
-  .em__final{position:relative;min-height:100svh}
+  .em__scene,.em__sub{display:none}
+  .em__collage{position:relative;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;padding:110px var(--gutter) 40px}
+  .ccol{position:relative;left:auto!important;top:auto!important;width:auto;opacity:1}
+  .em__final{position:relative;min-height:100svh;pointer-events:auto}
   .em__cta,.foot{opacity:1;transform:none}
 }
 </style>
@@ -290,7 +321,7 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
           <h1>Your next customer is deciding. <em>Right now.</em></h1>
         </div>
       </div>
-      <p class="hero__tag" id="heroTag">Kūno + Budō · Concept</p>
+      <p class="hero__tag" id="heroTag">Kūno + Budō</p>
     </div>
   </section>
 
@@ -315,7 +346,7 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   <section class="trust" id="about" aria-labelledby="trustTitle">
     <div class="trust__head"><h2 id="trustTitle">Built for the places people remember, and the businesses behind them.</h2>
       <p class="trust__note"><b>Showcase</b> is a small studio in Morocco building websites that feel like walking in: your real space, your menu or services, booking, fast on every phone.</p>
-      <p class="trust__count">20 sites<br>5 cities</p>
+      <p class="trust__count">20 sites</p>
     </div>
     <div class="trust__field" aria-hidden="true"><div class="trust__grid" id="logoGrid"></div></div>
   </section>
@@ -357,19 +388,24 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
   <section class="process" id="process" aria-labelledby="procTitle">
     <h2 id="procTitle">From link in bio to booked out.</h2>
     <div class="track" id="track">
-      <div class="stop"><h3>A free preview in 48 hours</h3><p>Send us your Instagram. We build a live preview of your future site with your space, your offer and your mood. No payment, no commitment.</p></div>
-      <div class="stop"><h3>We refine it together</h3><p>Booking link, menu, WhatsApp, maps, two languages. Tell us what matters and we shape it until it feels like yours.</p></div>
-      <div class="stop"><h3>You go live</h3><p>Your own domain, fast on every phone, ready to share on Google Maps and Instagram.</p></div>
+      <div class="stop" data-act="type"><figure class="peek" aria-hidden="true"><img src="assets/shot/sirocco.webp" alt=""><b>Preview ready</b></figure><h3>A free preview in 48 hours</h3><p>Send us your Instagram. We build a live preview of your future site with your space, your offer and your mood. No payment, no commitment.</p></div>
+      <div class="stop" data-act="shuffle"><h3>We refine it together</h3><p>Booking link, menu, WhatsApp, maps, two languages. Tell us what matters and we shape it until it feels like yours.</p></div>
+      <div class="stop" data-act="live"><div class="vortex" aria-hidden="true"></div><h3>You go live</h3><p>Your own domain, fast on every phone, ready to share on Google Maps and Instagram.</p></div>
     </div>
     <p class="pressure">Every week without a site is a week of customers you gave away.</p>
   </section>
 
-  <!-- 7 · design in motion → six sites → the logo -->
+  <!-- 7 · design in motion → a spiral of sites → six land → the logo -->
   <section class="end" id="contact" aria-labelledby="endTitle">
     <div class="end__pin">
-      <h2 class="em__title" id="emTitle" aria-label="Design in motion.">Design in motion.</h2>
-      <div class="em__grid" id="emGrid" aria-hidden="true"></div>
-      <div class="em__final">
+      <div class="em__scene" aria-hidden="true"><div class="em__rig" id="emRig">
+        <div class="em__helix" id="helix"></div>
+        <p class="em__w em__w--a" id="wA">Design in</p>
+        <p class="em__w em__w--b" id="wB">Motion</p>
+      </div></div>
+      <p class="em__sub" id="emSub">Ideas, built into websites<br>that move people</p>
+      <div class="em__collage" id="collage" aria-hidden="true"></div>
+      <div class="em__final" id="emFinal">
         <div class="em__cta" id="emCta">
           <h2 id="endTitle">Ready to be <em>found?</em></h2>
           <a class="pill" data-wa href="#">
@@ -378,7 +414,7 @@ html.has-cur:not(.cur-native), html.has-cur:not(.cur-native) *{cursor:none!impor
           </a>
         </div>
         <div class="art" id="art"><canvas id="artCanvas" role="img" aria-label="The word Showcase drawn in fine horizontal lines that ripple under your cursor."></canvas></div>
-        <footer class="foot" id="foot"><span>© 2026 Showcase · Websites for businesses, made in Morocco</span><span>The brands shown are design studies with fictional names.</span></footer>
+        <footer class="foot" id="foot"><span>© 2026 Showcase · Websites for businesses</span><span>The brands shown are design studies with fictional names.</span></footer>
       </div>
     </div>
   </section>
@@ -395,26 +431,26 @@ const WA_TEXT = "Hi Showcase, I'd like a free preview of a website for my busine
 /* ======================= the work ======================= */
 const GH = 'https://salimbennani39.github.io/';
 const SITES = [
-  ['jacaranda','Jacarandá','Restaurant, lounge & garden','Marrakech','night','jacaranda-marrakech'],
-  ['alize','Alizé','Rooftop & night bar','Dakhla','night','alize-dakhla'],
-  ['kohl','Kohl','Restaurant & lounge, noon to 4am','Marrakech','night','kohl-marrakech'],
-  ['firouz','Firouz','Moroccan fine dining','Marrakech','food','firouz-marrakech'],
-  ['nour','Atelier Nour','French pâtisserie','Tangier','cafe','atelier-nour'],
-  ['zvezda','Zvezda Beauté','Russian nails & lashes','Tangier','beauty','zvezda-beaute'],
-  ['le41','Le 41','Wine bar','Marrakech','night','le-41-marrakech'],
-  ['sirocco','Maison Sirocco','Guesthouse in the medina','Tangier','stay','maison-sirocco'],
-  ['bottega','Bottega Partenope','Neapolitan pizzeria','Marrakech','food','bottega-partenope'],
-  ['solen','Sōlen Wellness','Pilates & wellness house','Tangier','beauty','solen-wellness'],
-  ['kaze','Kaze Sushi','Japanese','Marrakech','food','kaze-sushi'],
-  ['huitieme','Le Huitième','French restaurant, 8th floor','Casablanca','food','le-huitieme'],
-  ['nacre','Nacre','Nail salon','Tangier','beauty','nacre-tanger'],
-  ['ambar','Dar Ambar','Moroccan dining','Marrakech','food','dar-ambar'],
-  ['kumo','Kumo Café','Japanese café','Casablanca','cafe','kumo-cafe'],
-  ['nagi','Nagi','Sushi & Asian','Rabat','food','nagi-rabat'],
-  ['lumi','Lumi by Sana','Café & brunch','Marrakech','cafe','lumi-marrakech'],
-  ['detour','Le Petit Détour','Canteen by day, bistro by night','Tangier','food','le-petit-detour'],
-  ['kesari','Kesari','Indian, ordering app','Tangier','food','kesari-tanger'],
-  ['kuno','Kūno + Budō','Japanese furniture','Concept','retail','https://kuno-plus-budo.higgsfield.app/']
+  ['jacaranda','Jacarandá','Restaurant, lounge & garden','','night','jacaranda-marrakech'],
+  ['alize','Alizé','Rooftop & night bar','','night','alize-dakhla'],
+  ['kohl','Kohl','Restaurant & lounge, noon to 4am','','night','kohl-marrakech'],
+  ['firouz','Firouz','Moroccan fine dining','','food','firouz-marrakech'],
+  ['nour','Atelier Nour','French pâtisserie','','cafe','atelier-nour'],
+  ['zvezda','Zvezda Beauté','Russian nails & lashes','','beauty','zvezda-beaute'],
+  ['le41','Le 41','Wine bar','','night','le-41-marrakech'],
+  ['sirocco','Maison Sirocco','Guesthouse in the medina','','stay','maison-sirocco'],
+  ['bottega','Bottega Partenope','Neapolitan pizzeria','','food','bottega-partenope'],
+  ['solen','Sōlen Wellness','Pilates & wellness house','','beauty','solen-wellness'],
+  ['kaze','Kaze Sushi','Japanese','','food','kaze-sushi'],
+  ['huitieme','Le Huitième','French restaurant, 8th floor','','food','le-huitieme'],
+  ['nacre','Nacre','Nail salon','','beauty','nacre-tanger'],
+  ['ambar','Dar Ambar','Moroccan dining','','food','dar-ambar'],
+  ['kumo','Kumo Café','Japanese café','','cafe','kumo-cafe'],
+  ['nagi','Nagi','Sushi & Asian','','food','nagi-rabat'],
+  ['lumi','Lumi by Sana','Café & brunch','','cafe','lumi-marrakech'],
+  ['detour','Le Petit Détour','Canteen by day, bistro by night','','food','le-petit-detour'],
+  ['kesari','Kesari','Indian, ordering app','','food','kesari-tanger'],
+  ['kuno','Kūno + Budō','Japanese furniture','','retail','https://kuno-plus-budo.higgsfield.app/']
 ].map(([k,name,type,city,cat,slug]) => ({k,name,type,city,cat,url: slug.startsWith('http') ? slug : GH + slug + '/'}));
 const CATS = [['all','All'],['food','Restaurants'],['night','Bars & lounges'],['cafe','Cafés'],['beauty','Beauty'],['stay','Stay'],['retail','Concept']];
 const TAGS = { food:['Menu','Book'], night:['Book a table','Events'], cafe:['Menu','Order'], beauty:['Book now','Prices'], stay:['Rooms','Book'], retail:['Collection','Visit'] };
@@ -448,7 +484,7 @@ function buildTiles(){
     const f = document.createElement('figure'); f.className = 'tile';
     f.style.setProperty('--w', w + 'vw'); f.style.setProperty('--ar', ar);
     f.style.left = x + '%'; f.style.top = y + '%';
-    f.innerHTML = `<div class="tile__in"><img src="assets/cover/${k}.webp" alt="" loading="lazy"><figcaption><span>${s.name}</span><span>${s.city}</span></figcaption></div>`;
+    f.innerHTML = `<div class="tile__in"><img src="assets/cover/${k}.webp" alt="" loading="lazy"><figcaption><span>${s.name}</span></figcaption></div>`;
     host.appendChild(f);
     return { el: f, inner: f.firstChild, dx: x - 50, dy: y - 50, d, i, ph: i * 1.7 };
   });
@@ -484,7 +520,7 @@ function renderStage(t){
 const miss = $('#miss'), qEl = $('#q'), feed = $('#feed'), feedList = $('#feedList'), blurStd = $('#mblurStd');
 const QUERY = 'best places near me';
 const missLines = [...document.querySelectorAll('#missTitle span')], missP = document.querySelector('.miss__copy p');
-const rowHTML = s => `<li class="res"><img src="assets/shot/${s.k}.webp" alt="" loading="lazy"><div><b>${s.name}</b><span>${s.type} · ${s.city}</span><i>${TAGS[s.cat][0]}</i><i>${TAGS[s.cat][1]}</i></div></li>`;
+const rowHTML = s => `<li class="res"><img src="assets/shot/${s.k}.webp" alt="" loading="lazy"><div><b>${s.name}</b><span>${s.type}</span><i>${TAGS[s.cat][0]}</i><i>${TAGS[s.cat][1]}</i></div></li>`;
 const FEED = [...SITES, ...SITES, ...SITES.slice().reverse(), ...['nacre','sirocco','kohl'].map(k => SITES.find(s => s.k === k))];
 feedList.innerHTML = FEED.map(rowHTML).join('');
 let rowH = 92, feedY = 0;
@@ -578,7 +614,7 @@ function buildRing(){
   document.documentElement.style.setProperty('--cw', CW + 'px');
   list.forEach((s, i) => {
     const b = document.createElement('button'); b.className = 'rcard'; b.type = 'button';
-    b.setAttribute('aria-label', `${s.name}, ${s.type}, ${s.city}. Open the site.`);
+    b.setAttribute('aria-label', `${s.name}, ${s.type}. Open the site.`);
     b.innerHTML = `<img src="assets/cover/${s.k}.webp" alt="" loading="lazy">`;
     b.style.transform = `rotateY(${i * 360 / n}deg) translateZ(${R}px)`;
     b.addEventListener('click', () => {
@@ -597,7 +633,7 @@ function setFront(i){
   if (i === front) return;
   const first = front === -1; front = i;
   const s = list[i];
-  $('#capName').textContent = s.name; $('#capMeta').textContent = `${s.type} · ${s.city}`; $('#capLink').href = s.url;
+  $('#capName').textContent = s.name; $('#capMeta').textContent = s.type; $('#capLink').href = s.url;
   if (first || reduce){ setName(s.name); return; }
   [...tileGrid.children].forEach((el, j) => {
     const delay = ((j % 14) + Math.floor(j / 14)) * 18;
@@ -619,57 +655,129 @@ function renderRing(){
   setFront(idx);
 }
 const carousel = $('#carousel');
-function buildCarousel(){ carousel.innerHTML = list.map(s => `<a class="ccard" href="${s.url}" target="_blank" rel="noopener"><img src="assets/cover/${s.k}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type} · ${s.city}</span></a>`).join(''); }
+function buildCarousel(){ carousel.innerHTML = list.map(s => `<a class="ccard" href="${s.url}" target="_blank" rel="noopener"><img src="assets/cover/${s.k}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type}</span></a>`).join(''); }
 
 /* ======================= 5 · index ======================= */
 const rows = $('#rows'), pvA = $('#pvA'), pvB = $('#pvB');
 let pvTop = pvA, pvCur = '';
-rows.innerHTML = SITES.map((s, i) => `<li class="row" data-i="${i}"><a href="${s.url}" target="_blank" rel="noopener"><img src="assets/shot/${s.k}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type} · ${s.city}</span><span class="arr" aria-hidden="true">↗</span></a></li>`).join('');
+rows.innerHTML = SITES.map((s, i) => `<li class="row" data-i="${i}"><a href="${s.url}" target="_blank" rel="noopener"><img src="assets/shot/${s.k}.webp" alt="" loading="lazy"><b>${s.name}</b><span>${s.type}</span><span class="arr" aria-hidden="true">↗</span></a></li>`).join('');
 function showPreview(i){
   const s = SITES[i]; if (pvCur === s.k) return; pvCur = s.k;
   rows.querySelectorAll('.row').forEach(r => r.classList.toggle('is-on', +r.dataset.i === i));
   const next = pvTop === pvA ? pvB : pvA;
   next.src = `assets/shot/${s.k}.webp`;
   next.onload = () => { next.style.opacity = 1; next.style.transform = 'scale(1)'; pvTop.style.opacity = 0; pvTop.style.transform = 'scale(1.03)'; pvTop = next; };
-  $('#pvName').textContent = s.name; $('#pvMeta').textContent = `${s.type} · ${s.city}`; $('#pvLink').href = s.url;
+  $('#pvName').textContent = s.name; $('#pvMeta').textContent = s.type; $('#pvLink').href = s.url;
 }
 rows.addEventListener('pointerover', e => { const r = e.target.closest('.row'); if (r) showPreview(+r.dataset.i); });
 rows.addEventListener('focusin', e => { const r = e.target.closest('.row'); if (r) showPreview(+r.dataset.i); });
 pvA.src = `assets/shot/${SITES[0].k}.webp`; pvCur = SITES[0].k;
-$('#pvName').textContent = SITES[0].name; $('#pvMeta').textContent = `${SITES[0].type} · ${SITES[0].city}`; $('#pvLink').href = SITES[0].url;
+$('#pvName').textContent = SITES[0].name; $('#pvMeta').textContent = SITES[0].type; $('#pvLink').href = SITES[0].url;
 
 /* ======================= 6 · process ======================= */
 new IntersectionObserver((es, io) => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('on'); e.target.style.setProperty('--draw', 1); io.disconnect(); } }), { threshold: .35 }).observe($('#track'));
 
-/* ======================= 7 · design in motion → six sites → logo ======================= */
-const end = $('#contact'), emTitle = $('#emTitle'), emGrid = $('#emGrid'), emCta = $('#emCta'), foot = $('#foot');
-emTitle.innerHTML = emTitle.textContent.split(' ').map(w => `<span class="w"><span>${w}</span></span>`).join(' ');
-const titleWords = [...emTitle.querySelectorAll('.w > span')];
-const SIX = [['sirocco','nacre'],['kaze','solen'],['huitieme','kumo']];
-emGrid.innerHTML = SIX.map(col => `<div class="em__col">${col.map(k => `<figure class="shot"><div class="shot__bar"><i></i><i></i><i></i></div><img src="assets/shot/${k}.webp" alt="" loading="lazy"></figure>`).join('')}</div>`).join('');
-const cols = [...emGrid.querySelectorAll('.em__col')], shots = [...emGrid.querySelectorAll('.shot')];
-let artReveal = 1;
+/* ======================= 7 · design in motion → spiral → collage → logo ======================= */
+const end = $('#contact'), emRig = $('#emRig'), helix = $('#helix'), wA = $('#wA'), wB = $('#wB'), emSub = $('#emSub'), collage = $('#collage'), emCta = $('#emCta'), foot = $('#foot'), emFinal = $('#emFinal');
+const HELIX = ['kohl','sirocco','nacre','kaze','solen','huitieme','kumo','jacaranda','alize','le41','firouz','nour','zvezda','bottega','ambar','nagi','lumi','detour','kesari','kuno'];
+helix.innerHTML = HELIX.map(k => `<div class="hcard"><img src="assets/shot/${k}.webp" alt="" loading="lazy"></div>`).join('');
+const hcards = [...helix.children];
+const SIX = [['kohl',27,30,25],['solen',50,27,17],['kumo',73,30,23],['kesari',25,68,22],['sirocco',49,72,19],['jacaranda',73,68,24]];
+const SIX_M = [['kohl',27,26,44],['solen',73,24,40],['kumo',26,50,40],['kesari',74,52,44],['sirocco',27,76,42],['jacaranda',73,78,42]];
+let ccards = [];
+function buildEnd(){
+  const narrow = isNarrow();
+  const HW = narrow ? VW * 0.42 : Math.min(VW * 0.2, 340), RAD = narrow ? VW * 0.5 : Math.min(VW * 0.34, 560), STEP = 24, PITCH = HW * 0.13;
+  helix.style.setProperty('--hw', HW + 'px');
+  hcards.forEach((c, i) => c.style.transform = `translateY(${-i * PITCH}px) rotateY(${i * STEP}deg) translateZ(${RAD}px)`);
+  helix.dataset.len = HELIX.length * PITCH;
+  collage.innerHTML = (narrow ? SIX_M : SIX).map(([k, x, y, w], i) => `<figure class="ccol" style="--w:${w}vw;left:${x}%;top:${y}%"><img src="assets/shot/${k}.webp" alt="" loading="lazy"></figure>`).join('');
+  ccards = [...collage.children].map((el, i) => ({ el, i, r: (i % 2 ? 1 : -1) * (6 + i * 2) }));
+}
 function renderEnd(){
-  if (reduce){ artReveal = 1; return; }
+  if (reduce){ artReveal = 1; ccards.forEach(c => { c.el.style.opacity = 1; c.el.style.transform = 'none'; }); return; }
   const p = prog(end);
-  titleWords.forEach((w, i) => { const k = smooth(0.0 + i*0.03, 0.1 + i*0.03, p); w.style.transform = `translateY(${(1-k)*105}%)`; });
-  const out = smooth(0.2, 0.32, p);
-  emTitle.style.opacity = 1 - out; emTitle.style.transform = `translateY(${-out*12}vh) scale(${1 - out*0.15})`;
-  // six sites: appear one by one, columns drift in opposite directions, then clear for the logo
-  const gone = smooth(0.62, 0.72, p);
-  shots.forEach((s, i) => {
-    const order = [0,3,1,4,2,5][i];
-    const k = smooth(0.22 + order*0.045, 0.34 + order*0.045, p);
-    s.style.opacity = k * (1 - gone);
-    s.style.transform = `translateY(${(1-k)*80}px) scale(${(0.9 + 0.1*k) * (1 + gone*0.08)})`;
+  // A · the two words slide in from opposite sides and meet
+  const inA = smooth(0.0, 0.13, p);
+  const spin = smooth(0.14, 0.52, p);
+  const wordsOut = smooth(0.26, 0.36, p);
+  wA.style.transform = `translateX(${-(1 - inA) * 75}vw) translateZ(${spin * 120}px)`;
+  wB.style.transform = `translateX(${(1 - inA) * 75}vw) translateZ(${spin * 120}px)`;
+  wA.style.opacity = wB.style.opacity = (1 - wordsOut).toFixed(3);
+  emSub.style.opacity = (smooth(0.06, 0.13, p) * (1 - smooth(0.16, 0.24, p))).toFixed(3);
+  // B · the spiral rises from below, turns the whole scene, and leaves through the top
+  const len = +helix.dataset.len || 0;
+  const rise = spin;
+  emRig.style.transform = `rotateY(${spin * 200}deg)`;
+  helix.style.transform = `rotateZ(-11deg) rotateX(14deg) translateY(${VH * 0.9 + len * 0.5 - rise * (VH * 2.1 + len)}px) rotateY(${spin * 160}deg)`;
+  helix.style.opacity = (p > 0.13 && p < 0.56) ? 1 : 0;
+  // C · six sites land one by one, as a loose collage
+  const away = smooth(0.8, 0.86, p);
+  ccards.forEach(c => {
+    const k = smooth(0.46 + c.i * 0.03, 0.58 + c.i * 0.03, p);
+    c.el.style.opacity = (k * (1 - away)).toFixed(3);
+    c.el.style.transform = `translate(-50%,-50%) translateY(${(1 - k) * 46}vh) rotate(${(1 - k) * c.r}deg) scale(${0.85 + 0.15 * k - away * 0.06})`;
   });
-  const drift = (smooth(0.3, 0.7, p) - 0.5) * 90;
-  cols.forEach((c, i) => c.style.transform = `translateY(${(i % 2 ? -drift : drift)}px)`);
-  artReveal = smooth(0.7, 0.86, p);
-  emCta.classList.toggle('on', p > 0.84);
-  foot.classList.toggle('on', p > 0.88);
+  // D · the logo draws itself, then the call to action
+  artReveal = smooth(0.84, 0.93, p);
+  emCta.classList.toggle('on', p > 0.91);
+  foot.classList.toggle('on', p > 0.92);
+  emFinal.classList.toggle('on', p > 0.88);
 }
 
+/* ======================= process: each step acts out what it says ======================= */
+const stops = [...document.querySelectorAll('.stop')];
+stops.forEach(st => {
+  const p = st.querySelector('p');
+  if (st.dataset.act === 'type') p.innerHTML = [...p.textContent].map((c, i) => `<span class="ch" style="--i:${i}">${c === ' ' ? ' ' : c}</span>`).join('');
+  if (st.dataset.act === 'shuffle') p.innerHTML = p.textContent.split(' ').map(w => `<span class="wd">${w}</span>`).join(' ');
+  if (st.dataset.act === 'live') st.querySelector('.vortex').innerHTML = HELIX.slice(0, 10).map(k => `<img src="assets/shot/${k}.webp" alt="" loading="lazy">`).join('');
+});
+function act(st){
+  if (reduce || st.dataset.busy) return; st.dataset.busy = 1;
+  const p = st.querySelector('p'), done = ms => setTimeout(() => delete st.dataset.busy, ms);
+  if (st.dataset.act === 'type'){
+    // the preview gets built: text retypes itself, a preview window pops up
+    st.classList.remove('typing'); void st.offsetWidth; st.classList.add('typing');
+    st.querySelector('.peek').animate([{ opacity: 0, transform: 'translateY(16px) scale(.92)' }, { opacity: 1, transform: 'none', offset: .2 }, { opacity: 1, transform: 'none', offset: .8 }, { opacity: 0, transform: 'translateY(-8px) scale(.98)' }], { duration: 2200, easing: 'cubic-bezier(.23,1,.32,1)' });
+    done(2200);
+  } else if (st.dataset.act === 'shuffle'){
+    // refining: words scatter, blur, then click back into place
+    const ws = [...p.querySelectorAll('.wd')], r = rng(Date.now() % 9973);
+    ws.forEach((w, i) => w.animate([
+      { transform: 'none', filter: 'blur(0)' },
+      { transform: `translate(${(r() - .5) * 60}px, ${(r() - .5) * 34}px) rotate(${(r() - .5) * 24}deg)`, filter: 'blur(3px)', opacity: .45, offset: .35 },
+      { transform: 'none', filter: 'blur(0)', opacity: 1 }
+    ], { duration: 900, delay: i * 18, easing: 'cubic-bezier(.65,0,.35,1)' }));
+    done(900 + ws.length * 18);
+  } else {
+    // going live: the text shoots forward and snaps back while sites spiral up past it
+    p.animate([
+      { transform: 'none', filter: 'blur(0)', opacity: 1 },
+      { transform: 'translateX(140px) skewX(-14deg)', filter: 'blur(7px)', opacity: .15, offset: .3 },
+      { transform: 'translateX(-10px) skewX(2deg)', filter: 'blur(0)', opacity: 1, offset: .62 },
+      { transform: 'none' }
+    ], { duration: 950, easing: 'cubic-bezier(.23,1,.32,1)' });
+    const vx = st.querySelector('.vortex'), H = vx.clientHeight, W = vx.clientWidth;
+    [...vx.children].forEach((img, i) => {
+      const frames = [];
+      for (let s = 0; s <= 16; s++){
+        const u = s / 16, a = u * Math.PI * 3.2 + i * 0.6, rad = W * 0.32 * (1 - u * 0.3);
+        const depth = Math.cos(a);
+        frames.push({ transform: `translate(-50%,-50%) translate(${Math.sin(a) * rad}px, ${(0.5 - u) * H}px) scale(${0.7 + depth * 0.3})`, opacity: u < .06 || u > .94 ? 0 : (0.8 + depth * 0.2), zIndex: depth > 0 ? 2 : 0 });
+      }
+      img.animate(frames, { duration: 1500, delay: i * 70, easing: 'cubic-bezier(.45,0,.25,1)' });
+    });
+    done(1500 + 10 * 70);
+  }
+}
+stops.forEach(st => { st.addEventListener('pointerenter', () => act(st)); st.addEventListener('click', () => act(st)); });
+if (!matchMedia('(hover: hover)').matches){
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ setTimeout(() => act(e.target), 400 + stops.indexOf(e.target) * 600); io.unobserve(e.target); } }), { threshold: .7 });
+  stops.forEach(s => io.observe(s));
+}
+
+let artReveal = 1;
 const art = $('#art'), cv = $('#artCanvas'), ctx = cv.getContext('2d');
 let mask = null, MW = 0, MH = 0, lines = [], ptr = { x: -9999, y: -9999, on: false }, artVisible = false, scrollKick = 0;
 function buildArt(){
@@ -717,21 +825,38 @@ art.addEventListener('pointerdown', e => { const r = cv.getBoundingClientRect();
 art.addEventListener('pointerleave', () => { ptr.on = false; });
 new IntersectionObserver(es => { artVisible = es[0].isIntersecting; }, { rootMargin: '100px' }).observe(art);
 
-/* ======================= cursor: arrow that steps aside near anything clickable ======================= */
+/* ======================= cursor: buttons light up, blur for a beat, and take the pointer ======================= */
 const cur = $('#cur'), curBody = $('#curBody');
 const fine = matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce;
-let cx = VW/2, cy = VH/2, tx = cx, ty = cy, lx = 0, ly = 0, ang = 0, tAng = 0, speed = 0, hot = [];
-function collectHot(){ hot = [...document.querySelectorAll('a, button, [role="button"], #bigname')]; }
-function nearest(x, y){
-  for (const el of hot){
-    const r = el.getBoundingClientRect();
-    if (!r.width || r.bottom < -40 || r.top > VH + 40) continue;
-    const dx = Math.max(r.left - x, 0, x - r.right), dy = Math.max(r.top - y, 0, y - r.bottom);
-    if (dx * dx + dy * dy < 26 * 26) return true;
-  }
-  return false;
+let cx = VW/2, cy = VH/2, tx = cx, ty = cy, lx = 0, ly = 0, ang = 0, tAng = 0, speed = 0, btns = [], others = [], lit = null;
+function collectHot(){
+  btns = [...document.querySelectorAll('.pill, .chip, .nav__links a, .mark')];
+  others = [...document.querySelectorAll('a, button, [role="button"], #bigname')].filter(el => !btns.includes(el));
 }
-function setNear(n){ document.documentElement.classList.toggle('cur-native', n); cur.dataset.on = n ? 0 : 1; }
+function gap(el, x, y){
+  const r = el.getBoundingClientRect();
+  if (!r.width || r.bottom < -40 || r.top > VH + 40) return Infinity;
+  const dx = Math.max(r.left - x, 0, x - r.right), dy = Math.max(r.top - y, 0, y - r.bottom);
+  return Math.hypot(dx, dy);
+}
+function visible(el){ let n = el; while (n && n !== document.body){ const cs = getComputedStyle(n); if (cs.opacity === '0' || cs.visibility === 'hidden' || cs.display === 'none') return false; n = n.parentElement; } return true; }
+function setLit(el){
+  if (el === lit) return;
+  if (lit) lit.classList.remove('is-lit');
+  lit = el;
+  if (el){
+    el.classList.add('is-lit');
+    el.animate([{ filter: 'blur(0)' }, { filter: 'blur(3.5px)', offset: .35 }, { filter: 'blur(0)' }], { duration: 340, easing: 'ease-out' });
+  }
+}
+function updatePointer(x, y){
+  let best = null, bd = 28;
+  for (const el of btns){ const d = gap(el, x, y); if (d < bd && visible(el)){ bd = d; best = el; } }
+  setLit(best);
+  const nearOther = !best && others.some(el => gap(el, x, y) < 22);
+  document.documentElement.classList.toggle('cur-native', nearOther);
+  cur.dataset.on = (best || nearOther) ? 0 : 1;
+}
 if (fine){
   document.documentElement.classList.add('has-cur');
   addEventListener('pointermove', e => {
@@ -740,10 +865,12 @@ if (fine){
     const dx = tx - lx, dy = ty - ly;
     if (Math.hypot(dx, dy) > 0.6) tAng = Math.atan2(dy, dx) * 180 / Math.PI;
     lx = tx; ly = ty;
-    setNear(nearest(tx, ty));
+    updatePointer(tx, ty);
   }, { passive: true });
-  addEventListener('scroll', () => { if (lx || ly) setNear(nearest(lx, ly)); }, { passive: true });
-  document.documentElement.addEventListener('pointerleave', () => cur.dataset.on = 0);
+  addEventListener('scroll', () => { if (lx || ly) updatePointer(lx, ly); }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => { cur.dataset.on = 0; setLit(null); });
+  // a lit button takes the click even if the pointer is just outside it
+  document.addEventListener('click', e => { if (lit && !lit.contains(e.target)){ e.preventDefault(); e.stopPropagation(); lit.click(); } }, true);
 }
 function renderCursor(){
   const dx = tx - cx, dy = ty - cy, d = Math.hypot(dx, dy);
@@ -765,7 +892,7 @@ function frame(t){
 }
 function layout(){
   VW = innerWidth; VH = innerHeight;
-  buildTiles(); buildLogos(); buildRing(); buildCarousel(); buildArt(); measureFeed(); collectHot();
+  buildTiles(); buildLogos(); buildRing(); buildCarousel(); buildEnd(); buildArt(); measureFeed(); collectHot();
   front = -1;
 }
 document.fonts.ready.then(() => { buildArt(); measureFeed(); });
