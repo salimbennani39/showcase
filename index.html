@@ -183,6 +183,7 @@ em{font:400 1.06em/.95 var(--serif);font-style:italic;letter-spacing:-.01em}
 @media (max-width:860px){.hcard img{box-shadow:none}}
 .hcard b{transform:rotateY(180deg)}
 .hcard b img{opacity:.5;filter:saturate(.7)}
+@media (max-width:860px){.hcard b img{filter:none;opacity:1}.hcard b{opacity:.45}.em__helix{will-change:transform}.em__w{backface-visibility:visible;-webkit-backface-visibility:visible}}
 .hcard b:empty{background:#E9E1D4;opacity:.55}
 .em__sub{position:absolute;left:50%;top:50%;translate:-50% -50%;margin:0;font:500 12px/1.4 var(--sans);letter-spacing:.08em;text-transform:uppercase;text-align:center;color:var(--ink-soft);opacity:0}
 .em__collage{position:absolute;inset:0}
@@ -775,9 +776,10 @@ new IntersectionObserver((es, io) => es.forEach(e => { if (e.isIntersecting){ e.
 /* ======================= 7 · design in motion → spiral → collage → logo ======================= */
 const end = $('#contact'), emRig = $('#emRig'), helix = $('#helix'), wA = $('#wA'), wB = $('#wB'), emSub = $('#emSub'), collage = $('#collage'), emCta = $('#emCta'), foot = $('#foot'), emFinal = $('#emFinal');
 const HELIX = ['kohl','sirocco','nacre','kaze','solen','huitieme','kumo','jacaranda','alize','le41','firouz','nour','zvezda','bottega','ambar','nagi','lumi','detour','kesari','kuno'];
-const COIL_N = isNarrow() ? 18 : 30;
+const COIL_N = isNarrow() ? 14 : 30;
+const HSRC = k => MOB ? `assets/xs/${k}.webp` : SHOT(k);
 const COIL = Array.from({ length: COIL_N }, (_, i) => HELIX[i % HELIX.length]);
-helix.innerHTML = COIL.map(k => `<div class="hcard"><img src="${SHOT(k)}" alt="" decoding="async"><b><img src="${SHOT(k)}" alt="" decoding="async"></b></div>`).join('');
+helix.innerHTML = COIL.map(k => `<div class="hcard"><img src="${HSRC(k)}" alt="" decoding="async"><b><img src="${HSRC(k)}" alt="" decoding="async"></b></div>`).join('');
 const hcards = [...helix.children];
 const SIX = [['kohl',27,30,25],['solen',50,27,17],['kumo',73,30,23],['kesari',25,68,22],['sirocco',49,72,19],['jacaranda',73,68,24]];
 const SIX_M = [['kohl',27,26,44],['solen',73,24,40],['kumo',26,50,40],['kesari',74,52,44],['sirocco',27,76,42],['jacaranda',73,78,42]];
@@ -801,14 +803,14 @@ function renderEnd(){
   const inA = smooth(0.0, 0.13, p);
   const spin = smooth(0.12, 0.56, p);
   const wordsOut = smooth(0.26, 0.36, p);
-  wA.style.transform = `translateX(${-(1 - inA) * 75}vw) translateZ(${spin * 120}px)`;
-  wB.style.transform = `translateX(${(1 - inA) * 75}vw) translateZ(${spin * 120}px)`;
+  wA.style.transform = MOB ? `translate3d(${-(1 - inA) * 75}vw,0,0)` : `translateX(${-(1 - inA) * 75}vw) translateZ(${spin * 120}px)`;
+  wB.style.transform = MOB ? `translate3d(${(1 - inA) * 75}vw,0,0)` : `translateX(${(1 - inA) * 75}vw) translateZ(${spin * 120}px)`;
   wA.style.opacity = wB.style.opacity = (1 - wordsOut).toFixed(3);
   emSub.style.opacity = (smooth(0.06, 0.13, p) * (1 - smooth(0.16, 0.24, p))).toFixed(3);
   // B · the spiral rises from below, turns the whole scene, and leaves through the top
   const len = +helix.dataset.len || 0;
   const rise = spin;
-  emRig.style.transform = `rotateY(${spin * 40}deg)`;
+  if (!MOB) emRig.style.transform = `rotateY(${spin * 40}deg)`;
   helix.style.transform = `rotateZ(-14deg) rotateX(16deg) translateY(${VH * 0.7 + len * 0.5 - rise * (VH * 1.4 + len)}px) rotateY(${spin * 300}deg)`;
   helix.style.opacity = (p > 0.11 && p < 0.6) ? 1 : 0;
   // C · six sites land one by one, as a loose collage
@@ -1002,7 +1004,7 @@ function layout(){
 }
 document.fonts.ready.then(() => { fitWord(); buildArt(); measureFeed(); cacheGeo(); });
 if (MOB){
-  const first = SITES.map(s => `assets/sm/c-${s.k}.webp`), next = SITES.map(s => `assets/sm/s-${s.k}.webp`);
+  const first = SITES.map(s => `assets/sm/c-${s.k}.webp`), next = [...SITES.map(s => `assets/xs/${s.k}.webp`), ...SITES.map(s => `assets/sm/s-${s.k}.webp`)];
   const warmList = (arr, pri) => arr.forEach(src => { const i = new Image(); if (pri) i.fetchPriority = 'high'; i.decoding = 'async'; i.src = src; i.decode && i.decode().catch(() => {}); });
   setTimeout(() => { warmList(first, true); setTimeout(() => warmList(next, false), 400); }, 250);
 }
