@@ -30,8 +30,18 @@ a{color:inherit}
 .four--r{margin-left:-2vw}
 .code{perspective:900px}
 .four{transform-style:preserve-3d;will-change:transform;filter:drop-shadow(0 18px 22px rgba(22,19,15,.10))}
-.trail{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden}
-.trail img{position:absolute;left:0;top:0;width:var(--s);height:auto;will-change:transform,opacity}
+.smoke{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
+.stage{z-index:1}
+/* the home page cursor */
+.cur{position:fixed;left:0;top:0;z-index:100;pointer-events:none;opacity:0;transition:opacity .18s}
+.cur[data-on="1"]{opacity:1}
+.cur__body{display:block;width:30px;height:26px;transform-origin:92% 50%}
+.cur__body svg{width:100%;height:100%;overflow:visible;display:block}
+html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!important}
+.pill{position:relative;overflow:hidden;isolation:isolate}
+.pill::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 25%,rgba(255,255,255,.55) 50%,transparent 75%);transform:translateX(-130%);pointer-events:none}
+.pill.is-lit::after{transform:translateX(130%);transition:transform .7s cubic-bezier(.23,1,.32,1)}
+.pill.is-lit{background:#3A342C;box-shadow:0 10px 26px -12px rgba(22,19,15,.55)}
 .zero{position:relative;width:clamp(140px,20vw,330px);aspect-ratio:1;display:grid;place-items:center;perspective:600px;z-index:2}
 .zero span{font-size:clamp(125px,17.5vw,290px);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;will-change:transform}
 
@@ -62,7 +72,8 @@ a{color:inherit}
   </h1>
 </main>
 <div class="flow" id="flow" aria-hidden="true"></div>
-<div class="trail" id="trail" aria-hidden="true"></div>
+<canvas class="smoke" id="smoke" aria-hidden="true"></canvas>
+<div class="cur" id="cur" aria-hidden="true"><span class="cur__body" id="curBody"><svg viewBox="0 0 30 26"><path d="M28.4 11.6c1.1.6 1.1 2.2 0 2.8L4.6 25.2c-1.5.7-3-.8-2.4-2.3L6.4 13.6c.2-.4.2-.8 0-1.2L2.2 3.1C1.6 1.6 3.1.1 4.6.8l23.8 10.8Z" fill="#16130F" stroke="#FBF9F5" stroke-width="1.4" stroke-linejoin="round"/></svg></span></div>
 
 <p class="lede">This page leads nowhere, the demo is a design study. <em>Your</em> real one would take bookings.</p>
 <span class="tag">Error 404</span>
@@ -130,38 +141,77 @@ addEventListener('pointermove', e => { tx = e.clientX / innerWidth - .5; ty = e.
   requestAnimationFrame(tilt);
 })();
 
-/* cursor trail: the things our clients sell follow the pointer (same as the home hero) */
-const ITEMS = ['lashes','polish','nigiri','maki','pizza','croissant','cake','cocktail','wine','tajine','coffee','curry','tea','key','pilates','stool'];
-const trail = document.getElementById('trail'), narrow = () => innerWidth <= 860;
-const src = ITEMS.map(k => `assets/items/${k}.webp`); src.forEach(s => { const i = new Image(); i.src = s; });
-let ii = 0, last = null, lastMove = 0;
-function drop(x, y){
-  const el = document.createElement('img'); el.src = src[ii++ % src.length]; el.alt = '';
-  const s = (narrow() ? 90 : 160) * (0.8 + Math.random() * 0.4); el.style.setProperty('--s', s + 'px');
-  trail.appendChild(el);
-  const r0 = (Math.random() - .5) * 50, r1 = r0 + (Math.random() - .5) * 40, dr = 40 + Math.random() * 50, X = x - s / 2, Y = y - s / 2;
-  el.animate([
-    { transform: `translate(${X}px,${Y}px) rotate(${r0}deg) scale(.3)`, opacity: 0 },
-    { transform: `translate(${X}px,${Y}px) rotate(${r0}deg) scale(1)`, opacity: 1, offset: .14 },
-    { transform: `translate(${X}px,${Y}px) rotate(${(r0 + r1) / 2}deg) scale(1)`, opacity: 1, offset: .62 },
-    { transform: `translate(${X}px,${Y + dr}px) rotate(${r1}deg) scale(.55)`, opacity: 0 }
-  ], { duration: 1900, easing: 'cubic-bezier(.23,1,.32,1)' }).onfinish = () => el.remove();
-}
-function at(x, y){
-  if (!last){ last = { x, y }; drop(x, y); return; }
-  if (Math.hypot(x - last.x, y - last.y) > (narrow() ? 42 : 58)){ drop(x, y); last = { x, y }; }
-}
-if (!reduce){
-  addEventListener('pointermove', e => { if (e.pointerType === 'touch') return; lastMove = performance.now(); at(e.clientX, e.clientY); });
-  // phones, or no pointer for a while: the trail draws itself in a slow loop
-  let t0 = performance.now();
-  (function auto(now){
-    if (now - lastMove > 2500){
-      const k = (now - t0) / 1000;
-      at(innerWidth * (.5 + .36 * Math.sin(k * .9)), innerHeight * (.62 + .2 * Math.sin(k * 1.7)));
+/* rocket smoke: each 4 breathes smoke from the foot of its blade, with tiny numbers falling inside it */
+const cv = document.getElementById('smoke'), g = cv.getContext('2d');
+let W = 0, H = 0, dpr = 1;
+function size(){ dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight; cv.width = W * dpr; cv.height = H * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0); }
+size(); addEventListener('resize', size);
+const puffs = [], digits = [];
+function nozzle(f){ const r = f.getBoundingClientRect(); return { x: r.left + r.width * (395 - 30) / 500, y: r.top + r.height * (625 - 90) / 700, w: r.width }; }
+let lastT = performance.now(), acc = 0;
+function smoke(now){
+  const dt = Math.min(50, now - lastT) / 16.7; lastT = now;
+  if (!reduce){
+    acc += dt;
+    while (acc >= 1){ acc -= 1;
+      for (const f of fours){
+        const n = nozzle(f), s = n.w / 300;
+        puffs.push({ x: n.x + (Math.random() - .5) * 18 * s, y: n.y, vx: (Math.random() - .5) * 1.1, vy: (1 + Math.random() * .9) * s, r: (12 + Math.random() * 10) * s, gr: (.45 + Math.random() * .35) * s, a: .1 + Math.random() * .08, life: 0, max: 150 + Math.random() * 80 });
+        if (Math.random() < .22) digits.push({ x: n.x + (Math.random() - .5) * 40 * s, y: n.y + 6, vx: (Math.random() - .5) * 1.4, vy: (1.6 + Math.random() * 1.4) * s, d: '0123456789'[Math.random() * 10 | 0], sz: (10 + Math.random() * 9) * Math.max(.7, s), rot: (Math.random() - .5) * .6, vr: (Math.random() - .5) * .02, life: 0, max: 130 + Math.random() * 70 });
+      }
     }
-    requestAnimationFrame(auto);
-  })(t0);
+  }
+  g.clearRect(0, 0, W, H);
+  for (let i = puffs.length - 1; i >= 0; i--){
+    const p = puffs[i]; p.life += dt; p.x += p.vx * dt; p.y += p.vy * dt; p.vx *= .995; p.r += p.gr * dt;
+    const k = p.life / p.max; if (k >= 1 || p.y - p.r > H){ puffs.splice(i, 1); continue; }
+    const a = p.a * Math.min(1, p.life / 12) * (1 - k);
+    const gr = g.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+    gr.addColorStop(0, `rgba(120,114,106,${a})`); gr.addColorStop(1, 'rgba(120,114,106,0)');
+    g.fillStyle = gr; g.beginPath(); g.arc(p.x, p.y, p.r, 0, Math.PI * 2); g.fill();
+  }
+  g.textAlign = 'center'; g.textBaseline = 'middle';
+  for (let i = digits.length - 1; i >= 0; i--){
+    const d = digits[i]; d.life += dt; d.x += d.vx * dt; d.y += d.vy * dt; d.rot += d.vr * dt;
+    const k = d.life / d.max; if (k >= 1 || d.y > H + 20){ digits.splice(i, 1); continue; }
+    g.save(); g.translate(d.x, d.y); g.rotate(d.rot);
+    g.globalAlpha = Math.min(1, d.life / 10) * (1 - k) * .85;
+    g.font = `500 ${d.sz}px Jost, sans-serif`; g.fillStyle = '#16130F'; g.fillText(d.d, 0, 0); g.restore();
+  }
+  requestAnimationFrame(smoke);
+}
+requestAnimationFrame(smoke);
+
+/* the home page cursor: an arrow that leans into its motion; buttons light up and take the click */
+const cur = document.getElementById('cur'), curBody = document.getElementById('curBody');
+const fine = matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce;
+let px = innerWidth / 2, py = innerHeight / 2, qx = px, qy = py, lx = 0, ly = 0, ang = 0, tAng = 0, speed = 0, lit = null;
+const btns = [...document.querySelectorAll('.pill, .mark')];
+const gapTo = (el, x, y) => { const r = el.getBoundingClientRect(); return Math.hypot(Math.max(r.left - x, 0, x - r.right), Math.max(r.top - y, 0, y - r.bottom)); };
+function setLit(el){
+  if (el === lit) return; if (lit) lit.classList.remove('is-lit'); lit = el;
+  if (el){ el.classList.add('is-lit'); el.animate([{ filter: 'blur(0)' }, { filter: 'blur(3.5px)', offset: .35 }, { filter: 'blur(0)' }], { duration: 340, easing: 'ease-out' }); }
+}
+if (fine){
+  document.documentElement.classList.add('has-cur');
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    qx = e.clientX; qy = e.clientY;
+    if (Math.hypot(qx - lx, qy - ly) > .6) tAng = Math.atan2(qy - ly, qx - lx) * 180 / Math.PI;
+    lx = qx; ly = qy;
+    let best = null, bd = 28; for (const el of btns){ const d = gapTo(el, qx, qy); if (d < bd){ bd = d; best = el; } }
+    setLit(best); cur.dataset.on = best ? 0 : 1;
+  }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => { cur.dataset.on = 0; setLit(null); });
+  document.addEventListener('click', e => { if (lit && !lit.contains(e.target)){ e.preventDefault(); e.stopPropagation(); lit.click(); } }, true);
+  (function loop(){
+    const dx = qx - px, dy = qy - py, d = Math.hypot(dx, dy);
+    px += dx * .2; py += dy * .2; speed += (d - speed) * .15;
+    ang += (((tAng - ang + 540) % 360) - 180) * .16;
+    cur.style.transform = `translate3d(${px}px, ${py}px, 0) rotate(${ang}deg)`;
+    curBody.style.transform = `translate(-92%, -50%) scale(${1 + Math.min(speed / 600, .35)}, ${1 - Math.min(speed / 900, .18)})`;
+    requestAnimationFrame(loop);
+  })();
 }
 </script>
 </body>
