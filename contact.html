@@ -187,7 +187,7 @@ form.addEventListener('submit', async e => {
   add('_template', 'table'); add('_captcha', 'false');
   add('_next', location.origin + location.pathname + '?sent=1&n=' + encodeURIComponent(fd.get('First name') || ''));
   btn.disabled = true; btn.firstChild.textContent = 'Sending… ';
-  form.action = 'https://formsubmit.co/' + TO; form.method = 'POST';
+  form.action = 'https://formsubmit.co/0c017c8d998220d153465ca082c4a24b'; form.method = 'POST';
   HTMLFormElement.prototype.submit.call(form);
 });
 
