@@ -179,24 +179,25 @@ form.addEventListener('submit', async e => {
   e.preventDefault(); err.classList.remove('on');
   const bad = [...form.querySelectorAll('[required]')].find(el => el.type === 'radio' ? !form.querySelector(`input[name="${el.name}"]:checked`) : !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value)));
   if (bad){ err.textContent = bad.type === 'radio' ? 'Please choose your type of business.' : bad.type === 'email' && bad.value ? 'That email address looks incomplete.' : 'Please fill in ' + (form.querySelector(`label[for="${bad.id}"]`)?.firstChild.textContent.trim().toLowerCase() || 'the required fields') + '.'; err.classList.add('on'); (bad.type === 'radio' ? bad.nextElementSibling : bad).scrollIntoView({ behavior: 'smooth', block: 'center' }); if (bad.type !== 'radio') bad.focus({ preventScroll: true }); return; }
-  const data = Object.fromEntries(new FormData(form));
-  if (data._honey) return;
-  delete data._honey;
-  data._subject = `New website request: ${data['Business name']} (${data['Type of business'] === 'Other' ? data['Other business type'] : data['Type of business']})`;
-  data._template = 'table'; data._captcha = 'false';
+  if (form.querySelector('[name="_honey"]').value) return;
+  // plain POST to FormSubmit (their background endpoint hangs); they redirect back here with ?sent=1
+  const fd = new FormData(form), type = fd.get('Type of business');
+  const add = (n, v) => { const h = document.createElement('input'); h.type = 'hidden'; h.name = n; h.value = v; form.appendChild(h); };
+  add('_subject', `New website request: ${fd.get('Business name')} (${type === 'Other' ? fd.get('Other business type') : type})`);
+  add('_template', 'table'); add('_captcha', 'false');
+  add('_next', location.origin + location.pathname + '?sent=1&n=' + encodeURIComponent(fd.get('First name') || ''));
   btn.disabled = true; btn.firstChild.textContent = 'Sending… ';
-  try {
-    const r = await fetch('https://formsubmit.co/ajax/' + TO, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
-    const j = await r.json().catch(() => ({}));
-    if (!r.ok || String(j.success) === 'false') throw new Error(j.message || 'failed');
-    document.getElementById('doneName').textContent = (data['First name'] || 'friend') + '.';
-    document.getElementById('fields').style.display = 'none'; document.getElementById('done').classList.add('on');
-    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  } catch (_) {
-    err.innerHTML = `Something went wrong sending your request. Please try again, or email us at <a href="mailto:${TO}">${TO}</a>.`; err.classList.add('on');
-    btn.disabled = false; btn.firstChild.textContent = 'Send my request ';
-  }
+  form.action = 'https://formsubmit.co/' + TO; form.method = 'POST';
+  HTMLFormElement.prototype.submit.call(form);
 });
+
+/* back from sending: show the thank-you card */
+const qs = new URLSearchParams(location.search);
+if (qs.get('sent')){
+  document.getElementById('doneName').textContent = (qs.get('n') || 'friend') + '.';
+  document.getElementById('fields').style.display = 'none'; document.getElementById('done').classList.add('on');
+  history.replaceState(null, '', location.pathname);
+}
 
 /* cursor trail: the things our clients sell follow the pointer (same as the home hero) */
 const ITEMS = ['lashes','polish','nigiri','maki','pizza','croissant','cake','cocktail','wine','tajine','coffee','curry','tea','key','pilates','stool'];
