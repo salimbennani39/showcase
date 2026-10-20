@@ -1,0 +1,260 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Showcase · Get your site</title>
+<meta name="description" content="Tell us about your business and get a free preview of your future website.">
+<meta property="og:title" content="Showcase · Get your site">
+<meta property="og:image" content="https://showcasecreativehouse.com/og.jpg">
+<meta name="theme-color" content="#FBF9F5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Archivo:wght@300..800&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--canvas:#FBF9F5;--cream:#F2ECE2;--cream-2:#E9E1D4;--ink:#16130F;--ink-soft:#6B6358;--line:rgba(22,19,15,.14);--gutter:clamp(16px,4vw,56px);--ease:cubic-bezier(.23,1,.32,1)}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--canvas);color:var(--ink);font-family:Archivo,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.nav{position:fixed;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:22px var(--gutter);z-index:10;background:rgba(251,249,245,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.mark{font:300 clamp(18px,1.5vw,22px)/1 Jost,sans-serif;letter-spacing:.2em;text-decoration:none;text-transform:uppercase}
+.mark b{font-weight:500}.mark i{font-style:normal;font-weight:300}
+.pill{position:relative;overflow:hidden;isolation:isolate;display:inline-flex;align-items:center;justify-content:center;gap:10px;height:46px;padding:0 22px;border-radius:999px;border:0;background:var(--ink);color:var(--canvas);font:600 15px/1 Archivo,sans-serif;text-decoration:none;cursor:pointer;transition:background .25s}
+.pill::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 25%,rgba(255,255,255,.55) 50%,transparent 75%);transform:translateX(-130%);pointer-events:none}
+.pill.is-lit::after{transform:translateX(130%);transition:transform .7s var(--ease)}
+.pill.is-lit,.pill:hover{background:#3A342C;box-shadow:0 10px 26px -12px rgba(22,19,15,.55)}
+.pill--ghost{background:var(--canvas);color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--ink)}
+.pill--ghost.is-lit,.pill--ghost:hover{background:var(--ink);color:var(--canvas)}
+.pill svg{width:18px;height:18px}
+
+main{position:relative;z-index:2;max-width:1180px;margin:0 auto;padding:clamp(120px,16vh,170px) var(--gutter) 90px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(32px,6vw,96px);align-items:start}
+.intro{position:sticky;top:130px}
+.intro h1{margin:0;font:700 clamp(44px,6.2vw,96px)/.92 Archivo,sans-serif;letter-spacing:-.055em}
+.intro h1 em{font:italic 400 1.04em/1 "Instrument Serif",serif;letter-spacing:-.02em}
+.intro p{margin:22px 0 0;max-width:36ch;font-size:16px;line-height:1.55;color:var(--ink-soft)}
+.intro ul{margin:28px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:14px}
+.intro li{display:flex;gap:10px;align-items:center}
+.intro li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--ink)}
+.alt{margin-top:28px;font-size:14px;color:var(--ink-soft)}
+.alt a{color:var(--ink);font-weight:600}
+
+form{background:#fff;border-radius:22px;padding:clamp(22px,3.4vw,44px);box-shadow:0 30px 70px -40px rgba(40,25,10,.35),0 0 0 1px var(--line)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.f{display:flex;flex-direction:column;gap:8px;margin-bottom:20px}
+label,.lbl{font:600 12px/1 Archivo,sans-serif;letter-spacing:.08em;text-transform:uppercase}
+.opt{font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink-soft)}
+input,textarea{width:100%;font:16px/1.4 Archivo,sans-serif;color:var(--ink);background:var(--canvas);border:1px solid var(--line);border-radius:12px;padding:14px 16px;outline:none;transition:border-color .2s,box-shadow .2s,background .2s}
+input:focus,textarea:focus{border-color:var(--ink);background:#fff;box-shadow:0 0 0 4px rgba(22,19,15,.06)}
+textarea{min-height:140px;resize:vertical}
+input::placeholder,textarea::placeholder{color:#A39A8E}
+.types{display:flex;flex-wrap:wrap;gap:10px}
+.type{position:relative;text-transform:none;letter-spacing:0;font-weight:500}
+.type input{position:absolute;opacity:0;pointer-events:none}
+.type span{display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:999px;background:var(--cream);font:500 14px/1 Archivo,sans-serif;cursor:pointer;transition:background .2s,color .2s,transform .2s var(--ease)}
+.type span i{font-style:normal;font-family:"Apple Color Emoji","Segoe UI Emoji",sans-serif}
+.type input:checked + span{background:var(--ink);color:var(--canvas)}
+.type input:focus-visible + span{outline:2px solid var(--ink);outline-offset:3px}
+.type span:active{transform:scale(.96)}
+.other{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .45s var(--ease),opacity .3s,margin .45s var(--ease);margin-top:0}
+.other > div{overflow:hidden}
+.other.on{grid-template-rows:1fr;opacity:1;margin-top:14px}
+.send{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:8px}
+.send small{font-size:12px;color:var(--ink-soft);max-width:30ch}
+.err{display:none;margin:0 0 16px;padding:12px 14px;border-radius:12px;background:#FBEDEA;color:#7A2A1F;font-size:14px}
+.err.on{display:block}
+.hp{position:absolute;left:-9999px}
+.done{display:none;text-align:center;padding:30px 10px}
+.done.on{display:block}
+.done h2{margin:0;font:700 clamp(32px,4vw,48px)/1 Archivo,sans-serif;letter-spacing:-.04em}
+.done h2 em{font:italic 400 1.05em/1 "Instrument Serif",serif}
+.done p{color:var(--ink-soft);margin:14px auto 24px;max-width:34ch;line-height:1.5}
+.done .emo{font-size:64px;line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji",sans-serif}
+
+/* cursor trail + home cursor */
+.trail{position:fixed;inset:0;pointer-events:none;z-index:1;overflow:hidden}
+.trail img{position:absolute;left:0;top:0;width:var(--s);height:auto;will-change:transform,opacity}
+.cur{position:fixed;left:0;top:0;z-index:100;pointer-events:none;opacity:0;transition:opacity .18s}
+.cur[data-on="1"]{opacity:1}
+.cur__body{display:block;width:30px;height:26px;transform-origin:92% 50%}
+.cur__body svg{width:100%;height:100%;overflow:visible;display:block}
+html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!important}
+
+@media (max-width:860px){
+  main{grid-template-columns:1fr;padding-top:110px}
+  .intro{position:static}
+  .row{grid-template-columns:1fr;gap:0}
+  .nav .pill{height:40px;padding:0 16px;font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){.other{transition:none}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="mark" href="./" aria-label="Showcase, home"><b>SHOW</b><i>CASE</i></a>
+  <a class="pill pill--ghost" href="./">Back to Showcase</a>
+</header>
+
+<div class="trail" id="trail" aria-hidden="true"></div>
+
+<main>
+  <section class="intro">
+    <h1>Let's build <em>yours.</em></h1>
+    <p>Tell us a little about your business. We'll look at your Instagram and come back within 48 hours with a free preview of your future website.</p>
+    <ul>
+      <li>Free preview, no commitment</li>
+      <li>Your real space, your offer, your mood</li>
+      <li>Fast on every phone</li>
+    </ul>
+    <p class="alt">Prefer to talk? <a href="#" data-wa>Message us on WhatsApp</a></p>
+  </section>
+
+  <form id="form" novalidate>
+    <div id="fields">
+      <p class="err" id="err" role="alert"></p>
+      <div class="row">
+        <div class="f"><label for="first">First name</label><input id="first" name="First name" autocomplete="given-name" required placeholder="Sara"></div>
+        <div class="f"><label for="last">Last name</label><input id="last" name="Last name" autocomplete="family-name" required placeholder="Benali"></div>
+      </div>
+      <div class="row">
+        <div class="f"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" required placeholder="you@business.com"></div>
+        <div class="f"><label for="phone">Phone / WhatsApp <span class="opt">(optional)</span></label><input id="phone" name="Phone" type="tel" autocomplete="tel" placeholder="+212 6…"></div>
+      </div>
+      <div class="f"><label for="biz">Business name</label><input id="biz" name="Business name" required placeholder="e.g. Maison Lumière"></div>
+
+      <div class="f">
+        <span class="lbl" id="typeLbl">Type of business</span>
+        <div class="types" role="radiogroup" aria-labelledby="typeLbl">
+          <label class="type"><input type="radio" name="Type of business" value="Restaurant / café" required><span><i>🍽️</i>Restaurant / café</span></label>
+          <label class="type"><input type="radio" name="Type of business" value="Beauty / nail salon"><span><i>💅</i>Beauty / nail salon</span></label>
+          <label class="type"><input type="radio" name="Type of business" value="Hotel / guest house"><span><i>🔑</i>Hotel / guest house</span></label>
+          <label class="type"><input type="radio" name="Type of business" value="Shop / studio"><span><i>🛋️</i>Shop / studio</span></label>
+          <label class="type"><input type="radio" name="Type of business" value="Other" id="typeOther"><span><i>✨</i>Other</span></label>
+        </div>
+        <div class="other" id="otherBox"><div>
+          <label for="otherTxt" style="display:block;margin-bottom:8px">Tell us what you do</label>
+          <input id="otherTxt" name="Other business type" placeholder="e.g. bakery, gym, theatre, architect…">
+        </div></div>
+      </div>
+
+      <div class="f"><label for="ig">Instagram link</label><input id="ig" name="Instagram" required placeholder="instagram.com/yourbusiness or @yourbusiness"></div>
+      <div class="f"><label for="msg">Message <span class="opt">(optional)</span></label><textarea id="msg" name="Message" placeholder="Anything you'd like us to know: what you want on the site, your deadline, ideas you love…"></textarea></div>
+
+      <input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="send">
+        <small>We only use your details to reply to you. No newsletters.</small>
+        <button class="pill" type="submit" id="submit">Send my request <span aria-hidden="true">→</span></button>
+      </div>
+    </div>
+
+    <div class="done" id="done" role="status">
+      <div class="emo" id="doneEmo">🎉</div>
+      <h2>Thank you, <em id="doneName">friend.</em></h2>
+      <p>We've got your request. We'll look at your Instagram and get back to you within 48 hours.</p>
+      <a class="pill pill--ghost" href="./">Back to Showcase</a>
+    </div>
+  </form>
+</main>
+
+<div class="cur" id="cur" aria-hidden="true"><span class="cur__body" id="curBody"><svg viewBox="0 0 30 26"><path d="M28.4 11.6c1.1.6 1.1 2.2 0 2.8L4.6 25.2c-1.5.7-3-.8-2.4-2.3L6.4 13.6c.2-.4.2-.8 0-1.2L2.2 3.1C1.6 1.6 3.1.1 4.6.8l23.8 10.8Z" fill="#16130F" stroke="#FBF9F5" stroke-width="1.4" stroke-linejoin="round"/></svg></span></div>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TO = 'hello@showcasecreativehouse.com';
+const WA = 'https://wa.me/34647591229?text=' + encodeURIComponent("Hi Showcase, I'd like a free preview of a website for my business.");
+document.querySelectorAll('[data-wa]').forEach(a => { a.href = WA; a.target = '_blank'; a.rel = 'noopener'; });
+
+/* "Other" opens its own field */
+const other = document.getElementById('typeOther'), otherBox = document.getElementById('otherBox'), otherTxt = document.getElementById('otherTxt');
+document.querySelectorAll('input[name="Type of business"]').forEach(r => r.addEventListener('change', () => {
+  const on = other.checked; otherBox.classList.toggle('on', on); otherTxt.required = on;
+  if (on) setTimeout(() => otherTxt.focus(), 250);
+}));
+
+/* send: the form is delivered to hello@ by FormSubmit (no server needed) */
+const form = document.getElementById('form'), err = document.getElementById('err'), btn = document.getElementById('submit');
+form.addEventListener('submit', async e => {
+  e.preventDefault(); err.classList.remove('on');
+  const bad = [...form.querySelectorAll('[required]')].find(el => el.type === 'radio' ? !form.querySelector(`input[name="${el.name}"]:checked`) : !el.value.trim() || (el.type === 'email' && !/^\S+@\S+\.\S+$/.test(el.value)));
+  if (bad){ err.textContent = bad.type === 'radio' ? 'Please choose your type of business.' : bad.type === 'email' && bad.value ? 'That email address looks incomplete.' : 'Please fill in ' + (form.querySelector(`label[for="${bad.id}"]`)?.firstChild.textContent.trim().toLowerCase() || 'the required fields') + '.'; err.classList.add('on'); (bad.type === 'radio' ? bad.nextElementSibling : bad).scrollIntoView({ behavior: 'smooth', block: 'center' }); if (bad.type !== 'radio') bad.focus({ preventScroll: true }); return; }
+  const data = Object.fromEntries(new FormData(form));
+  if (data._honey) return;
+  delete data._honey;
+  data._subject = `New website request: ${data['Business name']} (${data['Type of business'] === 'Other' ? data['Other business type'] : data['Type of business']})`;
+  data._template = 'table'; data._captcha = 'false';
+  btn.disabled = true; btn.firstChild.textContent = 'Sending… ';
+  try {
+    const r = await fetch('https://formsubmit.co/ajax/' + TO, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) });
+    const j = await r.json().catch(() => ({}));
+    if (!r.ok || String(j.success) === 'false') throw new Error(j.message || 'failed');
+    document.getElementById('doneName').textContent = (data['First name'] || 'friend') + '.';
+    document.getElementById('fields').style.display = 'none'; document.getElementById('done').classList.add('on');
+    form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  } catch (_) {
+    err.innerHTML = `Something went wrong sending your request. Please try again, or email us at <a href="mailto:${TO}">${TO}</a>.`; err.classList.add('on');
+    btn.disabled = false; btn.firstChild.textContent = 'Send my request ';
+  }
+});
+
+/* cursor trail: the things our clients sell follow the pointer (same as the home hero) */
+const ITEMS = ['lashes','polish','nigiri','maki','pizza','croissant','cake','cocktail','wine','tajine','coffee','curry','tea','key','pilates','stool'];
+const trail = document.getElementById('trail'), narrow = () => innerWidth <= 860;
+const src = ITEMS.map(k => `assets/items/${k}.webp`); src.forEach(s => { const i = new Image(); i.src = s; });
+let ii = 0, last = null;
+function drop(x, y){
+  const el = document.createElement('img'); el.src = src[ii++ % src.length]; el.alt = '';
+  const s = (narrow() ? 80 : 140) * (0.8 + Math.random() * 0.4); el.style.setProperty('--s', s + 'px');
+  trail.appendChild(el);
+  const r0 = (Math.random() - .5) * 50, r1 = r0 + (Math.random() - .5) * 40, dr = 40 + Math.random() * 50, X = x - s / 2, Y = y - s / 2;
+  el.animate([
+    { transform: `translate(${X}px,${Y}px) rotate(${r0}deg) scale(.3)`, opacity: 0 },
+    { transform: `translate(${X}px,${Y}px) rotate(${r0}deg) scale(1)`, opacity: 1, offset: .14 },
+    { transform: `translate(${X}px,${Y}px) rotate(${(r0 + r1) / 2}deg) scale(1)`, opacity: 1, offset: .62 },
+    { transform: `translate(${X}px,${Y + dr}px) rotate(${r1}deg) scale(.55)`, opacity: 0 }
+  ], { duration: 1900, easing: 'cubic-bezier(.23,1,.32,1)' }).onfinish = () => el.remove();
+}
+// objects only appear over the empty page, never under the form fields
+const overForm = (x, y) => { const r = form.getBoundingClientRect(); return x > r.left - 20 && x < r.right + 20 && y > r.top - 20 && y < r.bottom + 20; };
+function at(x, y){
+  if (overForm(x, y)) { last = null; return; }
+  if (!last){ last = { x, y }; drop(x, y); return; }
+  if (Math.hypot(x - last.x, y - last.y) > (narrow() ? 42 : 58)){ drop(x, y); last = { x, y }; }
+}
+if (!reduce) addEventListener('pointermove', e => { if (e.pointerType !== 'touch') at(e.clientX, e.clientY); }, { passive: true });
+
+/* the home page cursor: an arrow that leans into its motion; buttons light up; text fields get the normal cursor */
+const cur = document.getElementById('cur'), curBody = document.getElementById('curBody');
+const fine = matchMedia('(hover: hover) and (pointer: fine)').matches && !reduce;
+let px = innerWidth / 2, py = innerHeight / 2, qx = px, qy = py, lx = 0, ly = 0, ang = 0, tAng = 0, speed = 0, lit = null;
+const btns = [...document.querySelectorAll('.pill, .mark')];
+const gapTo = (el, x, y) => { const r = el.getBoundingClientRect(); if (!r.width) return Infinity; return Math.hypot(Math.max(r.left - x, 0, x - r.right), Math.max(r.top - y, 0, y - r.bottom)); };
+function setLit(el){
+  if (el === lit) return; if (lit) lit.classList.remove('is-lit'); lit = el;
+  if (el){ el.classList.add('is-lit'); el.animate([{ filter: 'blur(0)' }, { filter: 'blur(3.5px)', offset: .35 }, { filter: 'blur(0)' }], { duration: 340, easing: 'ease-out' }); }
+}
+if (fine){
+  document.documentElement.classList.add('has-cur');
+  addEventListener('pointermove', e => {
+    if (e.pointerType !== 'mouse') return;
+    qx = e.clientX; qy = e.clientY;
+    if (Math.hypot(qx - lx, qy - ly) > .6) tAng = Math.atan2(qy - ly, qx - lx) * 180 / Math.PI;
+    lx = qx; ly = qy;
+    let best = null, bd = 28; for (const el of btns){ const d = gapTo(el, qx, qy); if (d < bd){ bd = d; best = el; } }
+    setLit(best);
+    const t = document.elementFromPoint(qx, qy), native = !best && t && t.closest('input, textarea, label, a');
+    document.documentElement.classList.toggle('cur-native', !!native);
+    cur.dataset.on = (best || native) ? 0 : 1;
+  }, { passive: true });
+  document.documentElement.addEventListener('pointerleave', () => { cur.dataset.on = 0; setLit(null); });
+  document.addEventListener('click', e => { if (lit && !lit.contains(e.target)){ e.preventDefault(); e.stopPropagation(); lit.click(); } }, true);
+  (function loop(){
+    const dx = qx - px, dy = qy - py, d = Math.hypot(dx, dy);
+    px += dx * .2; py += dy * .2; speed += (d - speed) * .15;
+    ang += (((tAng - ang + 540) % 360) - 180) * .16;
+    cur.style.transform = `translate3d(${px}px, ${py}px, 0) rotate(${ang}deg)`;
+    curBody.style.transform = `translate(-92%, -50%) scale(${1 + Math.min(speed / 600, .35)}, ${1 - Math.min(speed / 900, .18)})`;
+    requestAnimationFrame(loop);
+  })();
+}
+</script>
+</body>
+</html>
