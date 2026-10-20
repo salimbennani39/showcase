@@ -618,7 +618,7 @@ function renderStage(t){
   stageLine.style.transform = `translateX(-50%) translateY(${(1 - smooth(0.62, 0.74, p))*20}px)`;
   nav.dataset.tone = 'ink';
   nav.classList.toggle('is-solid', p > 0.16);
-  nav.querySelector('.mark').style.opacity = smooth(0.18, 0.3, p).toFixed(3);
+  // the nav logo stays visible the whole time, including over the hero
 }
 
 /* ======================= 2 · the search, scrolled too fast to read ======================= */
