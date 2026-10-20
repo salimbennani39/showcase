@@ -52,27 +52,15 @@ html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!import
 @media (max-width:860px){
   .code{transform:translateY(-10vh)}
   .four{width:28vw}.zero{width:28vw}.zero > #emo{font-size:25vw}
-  .zero .word{font-size:14vw;-webkit-text-stroke-width:.9px;top:-9vw}
+  .zero .word{width:34vw;top:-8vw}
   .lede{right:var(--gutter);bottom:54px}
   .name{font-size:16px}
 }
 @media (prefers-reduced-motion:reduce){.name{filter:none!important}}
-/* "error", handwritten above the emoji: a monoline script, thickened, drawn left to right like a pen */
-.zero .word{position:absolute;left:50%;top:clamp(-150px,-8.5vw,-60px);translate:-50% 0;white-space:nowrap;
-  font:400 clamp(60px,8.4vw,140px)/1 Sacramento,cursive;color:var(--ink);-webkit-text-stroke:2.2px var(--ink);paint-order:stroke fill;
-  padding:0 .12em;clip-path:inset(-20% 100% -20% 0);pointer-events:none}
-.zero .word.write{animation:write 1.9s cubic-bezier(.45,.05,.4,1) forwards}
-.zero .word.wipe{clip-path:inset(-20% 0 -20% 0);animation:wipe .6s ease-in forwards}
-@keyframes write{
-  0%{clip-path:inset(-20% 100% -20% 0)}
-  /* a short pause between letters, like lifting the pen */
-  18%{clip-path:inset(-20% 80% -20% 0)} 22%{clip-path:inset(-20% 79% -20% 0)}
-  38%{clip-path:inset(-20% 61% -20% 0)} 42%{clip-path:inset(-20% 60% -20% 0)}
-  58%{clip-path:inset(-20% 42% -20% 0)} 62%{clip-path:inset(-20% 41% -20% 0)}
-  80%{clip-path:inset(-20% 21% -20% 0)} 84%{clip-path:inset(-20% 20% -20% 0)}
-  100%{clip-path:inset(-20% 0 -20% 0)}}
-@keyframes wipe{to{opacity:0;filter:blur(6px)}}
-@media (prefers-reduced-motion:reduce){.zero .word{clip-path:none}}
+/* "error" is one continuous pen line; the pen traces it from the first stroke of the e to the tail of the last r */
+.zero .word{position:absolute;left:50%;top:clamp(-120px,-6.6vw,-48px);translate:-50% 0;width:clamp(170px,22vw,360px);height:auto;overflow:visible;pointer-events:none}
+.zero .word path{fill:none;stroke:var(--ink);stroke-width:9.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1;stroke-dashoffset:1}
+@media (prefers-reduced-motion:reduce){.zero .word path{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
@@ -84,7 +72,7 @@ html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!import
 <main class="stage" aria-labelledby="t">
   <h1 id="t" class="code" aria-label="Error 404: this page does not exist">
     <svg class="four" viewBox="30 90 500 700" aria-hidden="true"><use href="#glyph4"/></svg>
-    <span class="zero" aria-hidden="true"><span class="word" id="word">error</span><span id="emo">💅</span></span>
+    <span class="zero" aria-hidden="true"><svg class="word" id="word" viewBox="0 30 440 110" aria-hidden="true"><path pathLength="1" d="M12,110 C40,104 70,88 72,72 C74,58 58,52 48,60 C34,72 30,98 44,110 C56,120 78,116 92,102 C99,92 102,76 104,60 C108,66 112,70 118,70 C123,70 126,66 128,62 C128,76 126,98 132,106 C137,113 152,112 166,104 C172,100 176,94 178,90 C181,82 184,72 186,60 C190,66 194,70 200,70 C205,70 208,66 210,62 C210,76 208,98 214,106 C219,113 236,112 252,102 C256,98 258,94 260,90 C264,76 272,66 288,65 C305,64 314,80 310,96 C306,111 287,117 276,107 C267,99 271,84 285,79 C298,74 310,72 320,73 C326,74 330,70 332,62 C336,68 340,72 346,72 C352,72 355,67 358,62 C358,78 356,98 362,106 C368,113 388,112 404,103 C412,98 420,94 428,90"/></svg><span id="emo">💅</span></span>
     <svg class="four four--r" viewBox="30 90 500 700" aria-hidden="true"><use href="#glyph4"/></svg>
   </h1>
 </main>
@@ -111,12 +99,18 @@ html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!import
 
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-/* write "error", hold it, fade it, write it again */
+/* write "error" with a pen, hold it, lift it away, write it again, forever */
 (() => {
-  const w = document.getElementById('word'); if (reduce) return;
-  const cycle = () => { w.className = 'word'; void w.offsetWidth; w.classList.add('write');
-    setTimeout(() => { w.className = 'word wipe'; }, 6200); };
-  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { setTimeout(cycle, 400); setInterval(cycle, 7200); });
+  const w = document.getElementById('word'), line = w.querySelector('path'); if (reduce) return;
+  function cycle(){
+    w.style.opacity = 1; w.style.filter = 'none';
+    line.animate([{ strokeDashoffset: 1 }, { strokeDashoffset: 0 }], { duration: 2600, easing: 'cubic-bezier(.45,.1,.35,1)', fill: 'forwards' })
+      .onfinish = () => setTimeout(() => {
+        w.animate([{ opacity: 1, filter: 'blur(0)' }, { opacity: 0, filter: 'blur(6px)' }], { duration: 600, easing: 'ease-in', fill: 'forwards' })
+          .onfinish = () => { line.getAnimations().forEach(a => a.cancel()); w.getAnimations().forEach(a => a.cancel()); setTimeout(cycle, 350); };
+      }, 2200);
+  }
+  setTimeout(cycle, 500);
 })();
 
 /* the 0 cycles through what our clients sell, exactly like the hero O */
