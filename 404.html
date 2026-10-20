@@ -28,8 +28,12 @@ a{color:inherit}
 .code{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(0px,1vw,16px);transform:translateY(-6vh)}
 .four{width:clamp(130px,22vw,360px);height:auto;display:block;color:var(--four)}
 .four--r{margin-left:-2vw}
-.zero{position:relative;width:clamp(120px,17vw,280px);aspect-ratio:1;display:grid;place-items:center;perspective:600px;z-index:2}
-.zero span{font-size:clamp(100px,14vw,230px);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;will-change:transform}
+.code{perspective:900px}
+.four{transform-style:preserve-3d;will-change:transform;filter:drop-shadow(0 18px 22px rgba(22,19,15,.10))}
+.trail{position:fixed;inset:0;pointer-events:none;z-index:3;overflow:hidden}
+.trail img{position:absolute;left:0;top:0;width:var(--s);height:auto;will-change:transform,opacity}
+.zero{position:relative;width:clamp(140px,20vw,330px);aspect-ratio:1;display:grid;place-items:center;perspective:600px;z-index:2}
+.zero span{font-size:clamp(125px,17.5vw,290px);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;will-change:transform}
 
 /* names flow from under the emoji down past the bottom of the screen */
 .flow{position:fixed;left:50%;top:0;bottom:0;width:min(90vw,700px);transform:translateX(-50%);pointer-events:none;z-index:1;overflow:hidden}
@@ -37,7 +41,7 @@ a{color:inherit}
 
 @media (max-width:860px){
   .code{transform:translateY(-10vh)}
-  .four{width:30vw}.zero{width:24vw}.zero span{font-size:21vw}
+  .four{width:28vw}.zero{width:28vw}.zero span{font-size:25vw}
   .lede{right:var(--gutter);bottom:54px}
   .name{font-size:16px}
 }
@@ -58,6 +62,7 @@ a{color:inherit}
   </h1>
 </main>
 <div class="flow" id="flow" aria-hidden="true"></div>
+<div class="trail" id="trail" aria-hidden="true"></div>
 
 <p class="lede">This page leads nowhere, the demo is a design study. <em>Your</em> real one would take bookings.</p>
 <span class="tag">Error 404</span>
@@ -111,6 +116,53 @@ function spawn(){
   ], { duration: DUR, easing: 'linear', fill: 'both' }).onfinish = () => el.remove();
 }
 spawn(); setInterval(spawn, EVERY);
+
+/* the two 4s turn to look at the pointer */
+const fours = [...document.querySelectorAll('.four')];
+let tx = 0, ty = 0, cx = 0, cy = 0;
+addEventListener('pointermove', e => { tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5; });
+(function tilt(){
+  cx += (tx - cx) * .08; cy += (ty - cy) * .08;
+  fours.forEach((f, i) => {
+    const r = f.getBoundingClientRect(), fx = (r.left + r.width / 2) / innerWidth - .5;   // each 4 looks from where it stands
+    f.style.transform = `rotateY(${((cx - fx * .5) * 55).toFixed(2)}deg) rotateX(${(-cy * 30).toFixed(2)}deg)`;
+  });
+  requestAnimationFrame(tilt);
+})();
+
+/* cursor trail: the things our clients sell follow the pointer (same as the home hero) */
+const ITEMS = ['lashes','polish','nigiri','maki','pizza','croissant','cake','cocktail','wine','tajine','coffee','curry','tea','key','pilates','stool'];
+const trail = document.getElementById('trail'), narrow = () => innerWidth <= 860;
+const src = ITEMS.map(k => `assets/items/${k}.webp`); src.forEach(s => { const i = new Image(); i.src = s; });
+let ii = 0, last = null, lastMove = 0;
+function drop(x, y){
+  const el = document.createElement('img'); el.src = src[ii++ % src.length]; el.alt = '';
+  const s = (narrow() ? 90 : 160) * (0.8 + Math.random() * 0.4); el.style.setProperty('--s', s + 'px');
+  trail.appendChild(el);
+  const r0 = (Math.random() - .5) * 50, r1 = r0 + (Math.random() - .5) * 40, dr = 40 + Math.random() * 50, X = x - s / 2, Y = y - s / 2;
+  el.animate([
+    { transform: `translate(${X}px,${Y}px) rotate(${r0}deg) scale(.3)`, opacity: 0 },
+    { transform: `translate(${X}px,${Y}px) rotate(${r0}deg) scale(1)`, opacity: 1, offset: .14 },
+    { transform: `translate(${X}px,${Y}px) rotate(${(r0 + r1) / 2}deg) scale(1)`, opacity: 1, offset: .62 },
+    { transform: `translate(${X}px,${Y + dr}px) rotate(${r1}deg) scale(.55)`, opacity: 0 }
+  ], { duration: 1900, easing: 'cubic-bezier(.23,1,.32,1)' }).onfinish = () => el.remove();
+}
+function at(x, y){
+  if (!last){ last = { x, y }; drop(x, y); return; }
+  if (Math.hypot(x - last.x, y - last.y) > (narrow() ? 42 : 58)){ drop(x, y); last = { x, y }; }
+}
+if (!reduce){
+  addEventListener('pointermove', e => { if (e.pointerType === 'touch') return; lastMove = performance.now(); at(e.clientX, e.clientY); });
+  // phones, or no pointer for a while: the trail draws itself in a slow loop
+  let t0 = performance.now();
+  (function auto(now){
+    if (now - lastMove > 2500){
+      const k = (now - t0) / 1000;
+      at(innerWidth * (.5 + .36 * Math.sin(k * .9)), innerHeight * (.62 + .2 * Math.sin(k * 1.7)));
+    }
+    requestAnimationFrame(auto);
+  })(t0);
+}
 </script>
 </body>
 </html>
