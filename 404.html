@@ -8,7 +8,7 @@
 <meta name="theme-color" content="#FBF9F5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Archivo:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Sacramento&family=Archivo:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <style>
 :root{--canvas:#FBF9F5;--ink:#16130F;--ink-soft:#6B6358;--four:#3A3835;--gutter:clamp(16px,4vw,56px)}
 *{box-sizing:border-box}
@@ -43,7 +43,7 @@ html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!import
 .pill.is-lit::after{transform:translateX(130%);transition:transform .7s cubic-bezier(.23,1,.32,1)}
 .pill.is-lit{background:#3A342C;box-shadow:0 10px 26px -12px rgba(22,19,15,.55)}
 .zero{position:relative;width:clamp(140px,20vw,330px);aspect-ratio:1;display:grid;place-items:center;perspective:600px;z-index:2}
-.zero span{font-size:clamp(125px,17.5vw,290px);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;will-change:transform}
+.zero > #emo{font-size:clamp(125px,17.5vw,290px);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;will-change:transform}
 
 /* names flow from under the emoji down past the bottom of the screen */
 .flow{position:fixed;left:50%;top:0;bottom:0;width:min(90vw,700px);transform:translateX(-50%);pointer-events:none;z-index:1;overflow:hidden}
@@ -51,11 +51,28 @@ html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!import
 
 @media (max-width:860px){
   .code{transform:translateY(-10vh)}
-  .four{width:28vw}.zero{width:28vw}.zero span{font-size:25vw}
+  .four{width:28vw}.zero{width:28vw}.zero > #emo{font-size:25vw}
+  .zero .word{font-size:14vw;-webkit-text-stroke-width:.9px;top:-9vw}
   .lede{right:var(--gutter);bottom:54px}
   .name{font-size:16px}
 }
 @media (prefers-reduced-motion:reduce){.name{filter:none!important}}
+/* "error", handwritten above the emoji: a monoline script, thickened, drawn left to right like a pen */
+.zero .word{position:absolute;left:50%;top:clamp(-150px,-8.5vw,-60px);translate:-50% 0;white-space:nowrap;
+  font:400 clamp(60px,8.4vw,140px)/1 Sacramento,cursive;color:var(--ink);-webkit-text-stroke:2.2px var(--ink);paint-order:stroke fill;
+  padding:0 .12em;clip-path:inset(-20% 100% -20% 0);pointer-events:none}
+.zero .word.write{animation:write 1.9s cubic-bezier(.45,.05,.4,1) forwards}
+.zero .word.wipe{clip-path:inset(-20% 0 -20% 0);animation:wipe .6s ease-in forwards}
+@keyframes write{
+  0%{clip-path:inset(-20% 100% -20% 0)}
+  /* a short pause between letters, like lifting the pen */
+  18%{clip-path:inset(-20% 80% -20% 0)} 22%{clip-path:inset(-20% 79% -20% 0)}
+  38%{clip-path:inset(-20% 61% -20% 0)} 42%{clip-path:inset(-20% 60% -20% 0)}
+  58%{clip-path:inset(-20% 42% -20% 0)} 62%{clip-path:inset(-20% 41% -20% 0)}
+  80%{clip-path:inset(-20% 21% -20% 0)} 84%{clip-path:inset(-20% 20% -20% 0)}
+  100%{clip-path:inset(-20% 0 -20% 0)}}
+@keyframes wipe{to{opacity:0;filter:blur(6px)}}
+@media (prefers-reduced-motion:reduce){.zero .word{clip-path:none}}
 </style>
 </head>
 <body>
@@ -67,7 +84,7 @@ html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!import
 <main class="stage" aria-labelledby="t">
   <h1 id="t" class="code" aria-label="Error 404: this page does not exist">
     <svg class="four" viewBox="30 90 500 700" aria-hidden="true"><use href="#glyph4"/></svg>
-    <span class="zero" aria-hidden="true"><span id="emo">💅</span></span>
+    <span class="zero" aria-hidden="true"><span class="word" id="word">error</span><span id="emo">💅</span></span>
     <svg class="four four--r" viewBox="30 90 500 700" aria-hidden="true"><use href="#glyph4"/></svg>
   </h1>
 </main>
@@ -94,6 +111,13 @@ html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!import
 
 <script>
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* write "error", hold it, fade it, write it again */
+(() => {
+  const w = document.getElementById('word'); if (reduce) return;
+  const cycle = () => { w.className = 'word'; void w.offsetWidth; w.classList.add('write');
+    setTimeout(() => { w.className = 'word wipe'; }, 6200); };
+  (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { setTimeout(cycle, 400); setInterval(cycle, 7200); });
+})();
 
 /* the 0 cycles through what our clients sell, exactly like the hero O */
 const EMOJI = ['💅','🍣','🍕','🥐','🍰','🍸','🍷','☕','🍛','🍵','🔑','🧘','🛋️','🧁'];
