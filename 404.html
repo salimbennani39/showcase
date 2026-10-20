@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Showcase · 404</title>
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#FBF9F5">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300..700&family=Archivo:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--canvas:#FBF9F5;--ink:#16130F;--ink-soft:#6B6358;--four:#3A3835;--gutter:clamp(16px,4vw,56px)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--canvas);color:var(--ink);font-family:Archivo,system-ui,sans-serif;overflow:hidden}
+a{color:inherit}
+.nav{position:fixed;inset:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:22px var(--gutter);z-index:5}
+.mark{font:300 clamp(18px,1.5vw,22px)/1 Jost,sans-serif;letter-spacing:.2em;text-decoration:none;text-transform:uppercase}
+.mark b{font-weight:500}.mark i{font-style:normal;font-weight:300}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:99px;background:var(--ink);color:var(--canvas);text-decoration:none;font:600 14px/1 Archivo,sans-serif;transition:background .25s}
+.pill:hover{background:#3A342C}
+.tag{position:fixed;right:var(--gutter);bottom:22px;font:12px/1 Archivo,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);z-index:5}
+.lede{position:fixed;left:var(--gutter);bottom:22px;margin:0;font:13px/1.4 Archivo,sans-serif;color:var(--ink-soft);z-index:5;max-width:46ch}
+.lede em{font:italic 1.25em/1 "Instrument Serif",serif;color:var(--ink)}
+
+/* 4 · emoji · 4 */
+.stage{position:fixed;inset:0;display:grid;place-items:center}
+.code{position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(0px,1vw,16px);transform:translateY(-6vh)}
+.four{width:clamp(130px,22vw,360px);height:auto;display:block;color:var(--four)}
+.four--r{margin-left:-2vw}
+.zero{position:relative;width:clamp(120px,17vw,280px);aspect-ratio:1;display:grid;place-items:center;perspective:600px;z-index:2}
+.zero span{font-size:clamp(100px,14vw,230px);line-height:1;font-family:"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif;will-change:transform}
+
+/* names flow from under the emoji down past the bottom of the screen */
+.flow{position:fixed;left:50%;top:0;bottom:0;width:min(90vw,700px);transform:translateX(-50%);pointer-events:none;z-index:1;overflow:hidden}
+.name{position:absolute;left:50%;top:0;white-space:nowrap;font:500 clamp(18px,1.7vw,26px)/1 Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);opacity:0;will-change:transform,opacity,filter}
+
+@media (max-width:860px){
+  .code{transform:translateY(-10vh)}
+  .four{width:30vw}.zero{width:24vw}.zero span{font-size:21vw}
+  .lede{right:var(--gutter);bottom:54px}
+  .name{font-size:16px}
+}
+@media (prefers-reduced-motion:reduce){.name{filter:none!important}}
+</style>
+</head>
+<body>
+<header class="nav">
+  <a class="mark" href="./" aria-label="Showcase, home"><b>SHOW</b><i>CASE</i></a>
+  <a class="pill" href="./">Back to Showcase <span aria-hidden="true">→</span></a>
+</header>
+
+<main class="stage" aria-labelledby="t">
+  <h1 id="t" class="code" aria-label="Error 404: this page does not exist">
+    <svg class="four" viewBox="30 90 500 700" aria-hidden="true"><use href="#glyph4"/></svg>
+    <span class="zero" aria-hidden="true"><span id="emo">💅</span></span>
+    <svg class="four four--r" viewBox="30 90 500 700" aria-hidden="true"><use href="#glyph4"/></svg>
+  </h1>
+</main>
+<div class="flow" id="flow" aria-hidden="true"></div>
+
+<p class="lede">This page leads nowhere, the demo is a design study. <em>Your</em> real one would take bookings.</p>
+<span class="tag">Error 404</span>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <!-- a blackletter "4": hairline diagonal, broad stem, slanted bar, blade and a hairline tail -->
+  <symbol id="glyph4" viewBox="30 90 500 700">
+    <g fill="currentColor" stroke="currentColor">
+      <path d="M430 103 L123 459" fill="none" stroke-width="2"/>
+      <path d="M337 212 L430 103 L430 600 L337 574 Z" stroke="none"/>
+      <path d="M123 459 L337 459 L247 541 L44 541 Z" stroke="none"/>
+      <path d="M337 574 L495 618 L406 703 L293 653 Z" stroke="none"/>
+      <path d="M296 654 C250 668 218 700 226 732 C233 757 248 770 264 780" fill="none" stroke-width="1.8"/>
+      <path d="M466 498 C505 520 510 575 494 600" fill="none" stroke-width="1.8"/>
+    </g>
+  </symbol>
+</svg>
+
+<script>
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* the 0 cycles through what our clients sell, exactly like the hero O */
+const EMOJI = ['💅','🍣','🍕','🥐','🍰','🍸','🍷','☕','🍛','🍵','🔑','🧘','🛋️','🧁'];
+const emo = document.getElementById('emo'); let emoI = 0;
+if (!reduce) setInterval(() => {
+  emo.animate([{ transform: 'rotateY(0deg) scale(1)' }, { transform: 'rotateY(90deg) scale(.85)' }], { duration: 170, easing: 'ease-in' }).onfinish = () => {
+    emo.textContent = EMOJI[++emoI % EMOJI.length];
+    emo.animate([{ transform: 'rotateY(-90deg) scale(.85)' }, { transform: 'rotateY(0deg) scale(1)' }], { duration: 260, easing: 'cubic-bezier(.23,1,.32,1)' });
+  };
+}, 900);
+
+/* every site we made drifts down from under the emoji:
+   blurred and faint → sharp → slides on → blurs out and disappears */
+const NAMES = ['Jacarandá','Alizé','Kohl','Firouz','Atelier Nour','Zvezda Beauté','Le 41','Maison Sirocco','Bottega Partenope','Sōlen Wellness','Kaze Sushi','Le Huitième','Nacre','Dar Ambar','Kumo Café','Nagi','Lumi by Sana','Le Petit Détour','Kesari','Kūno + Budō'];
+const flow = document.getElementById('flow');
+const DUR = 11000, EVERY = 1500;
+let n = 0;
+function spawn(){
+  const z = document.querySelector('.zero').getBoundingClientRect();
+  const y0 = z.bottom + 8, y1 = innerHeight + 40;
+  const el = document.createElement('span'); el.className = 'name'; el.textContent = NAMES[n++ % NAMES.length];
+  flow.appendChild(el);
+  const at = (t, y, o, b) => ({ offset: t, transform: `translate(-50%, ${y}px)`, opacity: o, filter: `blur(${b}px)` });
+  const Y = t => y0 + (y1 - y0) * t;
+  el.animate(reduce ? [at(0, Y(.3), 0, 0), at(.2, Y(.3), 1, 0), at(.8, Y(.3), 1, 0), at(1, Y(.3), 0, 0)] : [
+    at(0,   Y(0),   0,  14),
+    at(.22, Y(.12), 1,  0),     // blurry → clear
+    at(.55, Y(.5),  1,  0),     // clear, sliding down slowly
+    at(.85, Y(.85), .5, 8),     // blurs again
+    at(1,   Y(1),   0,  16)     // gone below the screen
+  ], { duration: DUR, easing: 'linear', fill: 'both' }).onfinish = () => el.remove();
+}
+spawn(); setInterval(spawn, EVERY);
+</script>
+</body>
+</html>
