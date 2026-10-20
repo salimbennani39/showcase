@@ -91,6 +91,8 @@ html.has-cur:not(.cur-native),html.has-cur:not(.cur-native) *{cursor:none!import
   .nav .pill{height:40px;padding:0 16px;font-size:14px}
 }
 @media (prefers-reduced-motion:reduce){.other{transition:none}}
+.confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50}
+.done .emo{display:inline-block}
 </style>
 </head>
 <body>
@@ -200,7 +202,43 @@ const qs = new URLSearchParams(location.search);
 if (qs.get('sent')){
   document.getElementById('doneName').textContent = (qs.get('n') || 'friend') + '.';
   document.getElementById('fields').style.display = 'none'; document.getElementById('done').classList.add('on');
+  setTimeout(popper, 450);
   history.replaceState(null, '', location.pathname);
+}
+
+/* the party popper pops once: confetti bursts out of it, flutters down and falls off the bottom of the screen */
+function popper(){
+  const emo = document.getElementById('doneEmo'), r = emo.getBoundingClientRect();
+  emo.animate([{ transform: 'scale(1) rotate(0)' }, { transform: 'scale(1.35) rotate(-14deg)', offset: .25 }, { transform: 'scale(.92) rotate(6deg)', offset: .6 }, { transform: 'scale(1) rotate(0)' }], { duration: 650, easing: 'cubic-bezier(.23,1,.32,1)' });
+  if (reduce) return;
+  const cv = document.createElement('canvas'); cv.className = 'confetti'; document.body.appendChild(cv);
+  const g = cv.getContext('2d'), dpr = Math.min(devicePixelRatio || 1, 2);
+  cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; g.setTransform(dpr, 0, 0, dpr, 0, 0);
+  const COLORS = ['#F7C948', '#9B6BE0', '#F2709C', '#4F8EF7', '#FF9F43', '#3FC1A5', '#E8505B'];
+  const ox = r.left + r.width * .62, oy = r.top + r.height * .28;   // the mouth of the popper
+  const bits = Array.from({ length: 170 }, () => {
+    const a = (-Math.PI / 2) + (Math.random() - .35) * 1.9, v = 9 + Math.random() * 13, kind = Math.random();
+    return { x: ox, y: oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, c: COLORS[Math.random() * COLORS.length | 0],
+      w: 6 + Math.random() * 7, h: kind < .7 ? 3 + Math.random() * 4 : 0, ribbon: kind > .88, rot: Math.random() * 6, vr: (Math.random() - .5) * .35,
+      tilt: Math.random() * 6, vt: .05 + Math.random() * .12, drag: .985 - Math.random() * .02 };
+  });
+  let last = performance.now();
+  (function frame(now){
+    const dt = Math.min(40, now - last) / 16.7; last = now;
+    g.clearRect(0, 0, innerWidth, innerHeight);
+    let alive = 0;
+    for (const b of bits){
+      if (b.y > innerHeight + 40) continue; alive++;
+      b.vx *= Math.pow(b.drag, dt); b.vy = Math.min(b.vy * Math.pow(b.drag, dt) + .32 * dt, 4.2 + Math.sin(b.tilt) * .8);  // gravity, air drag makes it flutter
+      b.x += (b.vx + Math.sin(b.tilt) * .9) * dt; b.y += b.vy * dt; b.rot += b.vr * dt; b.tilt += b.vt * dt;
+      g.save(); g.translate(b.x, b.y); g.rotate(b.rot); g.fillStyle = b.c; g.strokeStyle = b.c;
+      if (b.ribbon){ g.lineWidth = 2.4; g.beginPath(); g.moveTo(-8, 0); g.bezierCurveTo(-3, -6, 3, 6, 8, 0); g.stroke(); }
+      else if (!b.h){ g.beginPath(); g.arc(0, 0, b.w / 2.4, 0, Math.PI * 2); g.fill(); }
+      else { const hh = b.h * Math.abs(Math.cos(b.tilt)) + 1; g.fillRect(-b.w / 2, -hh / 2, b.w, hh); }
+      g.restore();
+    }
+    if (alive) requestAnimationFrame(frame); else cv.remove();   // once everything has fallen out of view, it's gone for good
+  })(last);
 }
 
 /* cursor trail: the things our clients sell follow the pointer (same as the home hero) */
